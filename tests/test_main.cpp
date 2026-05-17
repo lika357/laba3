@@ -20,6 +20,8 @@ int main()
     test_queue_front_back();
     test_queue_empty_and_size();
     test_queue_operators();
+    test_stack_exceptions();
+    test_queue_exceptions();
 
     std::cout << "true " << get_true_tests() << "\n";
     std::cout << "false " << get_failed_tests() << "\n";

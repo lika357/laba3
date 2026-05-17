@@ -15,3 +15,5 @@ void test_queue_dequeue();
 void test_queue_front_back();
 void test_queue_empty_and_size();
 void test_queue_operators();
+void test_stack_exceptions();
+void test_queue_exceptions();

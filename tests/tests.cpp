@@ -157,3 +157,67 @@ void test_queue_operators()
     --q;
     assert_func(q() == 20);
 }
+void test_stack_exceptions()
+{
+    Stack<int> s;
+    bool caught = false;
+
+    try
+    {
+        s.Pop();
+    }
+    catch (const InvalidArgument&)
+    {
+        caught = true;
+    }
+    assert_func(caught);
+
+    caught = false;
+    try
+    {
+        s.Peek();
+    }
+    catch (const InvalidArgument&)
+    {
+        caught = true;
+    }
+    assert_func(caught);
+}
+
+void test_queue_exceptions()
+{
+    Queue<int> q;
+    bool caught = false;
+
+    try
+    {
+        q.Dequeue();
+    }
+    catch (const InvalidArgument&)
+    {
+        caught = true;
+    }
+    assert_func(caught);
+
+    caught = false;
+    try
+    {
+        q.Front();
+    }
+    catch (const InvalidArgument&)
+    {
+        caught = true;
+    }
+    assert_func(caught);
+
+    caught = false;
+    try
+    {
+        q.Back();
+    }
+    catch (const InvalidArgument&)
+    {
+        caught = true;
+    }
+    assert_func(caught);
+}
