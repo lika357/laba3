@@ -26,4 +26,12 @@ class Stack : private ArraySequence<T>
 
         return val;
     }
+    T Peek() const
+    {
+        if (this->GetLength() == 0)
+        {
+            throw InvalidArgument{};
+        }
+        return this->GetLast();
+    }
 };

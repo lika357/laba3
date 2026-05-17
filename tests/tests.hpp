@@ -5,3 +5,4 @@ void test_stack_push();
 void test_stack_pop();
 void test_array_sequence_resize();
 void test_list_sequence_resize();
+void test_stack_peek();

@@ -50,3 +50,15 @@ void test_list_sequence_resize()
     assert_func(seq.GetLength() == 2);
     assert_func(seq.Get(0) == 1);
 }
+void test_stack_peek()
+{
+    Stack<int> s;
+    s.Push(10);
+    s.Push(20);
+
+    int val = s.Peek();
+    assert_func(val == 20);
+
+    val = s.Peek();
+    assert_func(val == 20);
+}

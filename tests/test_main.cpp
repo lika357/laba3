@@ -10,6 +10,7 @@ int main()
     test_stack_pop();
     test_array_sequence_resize();
     test_list_sequence_resize();
+    test_stack_peek();
 
     std::cout << "true " << get_true_tests() << "\n";
     std::cout << "false " << get_failed_tests() << "\n";
