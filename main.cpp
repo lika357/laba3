@@ -65,7 +65,8 @@ int main()
     Button btnOp4(250, 280, 400, 50, "", font);
     Button btnOp5(250, 340, 400, 50, "", font);
     Button btnOp6(250, 400, 400, 50, "", font);
-    Button btnBack(320, 520, 260, 50, "BACK", font);
+    Button btnOp7(250, 460, 400, 50, "", font);
+    Button btnBack(320, 530, 260, 50, "BACK", font);
 
     enum Screen
     {
@@ -113,6 +114,46 @@ int main()
             }
         }
 
+        if (screen == TYPE_SCREEN)
+        {
+            title.setString("CHOOSE STRUCTURE");
+        }
+        else if (screen == MENU_SCREEN)
+        {
+            if (containerType == 1)
+            {
+                title.setString("STACK");
+            }
+            else
+            {
+                title.setString("QUEUE");
+            }
+        }
+
+        if (screen == MENU_SCREEN)
+        {
+            if (containerType == 1)
+            {
+                btnOp1.setText("Push");
+                btnOp2.setText("Pop");
+                btnOp3.setText("Peek");
+                btnOp4.setText("GetSize");
+                btnOp5.setText("IsEmpty");
+                btnOp6.setText("Print");
+                btnOp7.setText("");
+            }
+            else
+            {
+                btnOp1.setText("Enqueue");
+                btnOp2.setText("Dequeue");
+                btnOp3.setText("Front");
+                btnOp4.setText("Back");
+                btnOp5.setText("IsEmpty");
+                btnOp6.setText("Print");
+                btnOp7.setText("GetSize");
+            }
+        }
+
         window.clear(sf::Color(255, 228, 225));
         window.draw(title);
 
@@ -129,6 +170,7 @@ int main()
             btnOp4.draw(window);
             btnOp5.draw(window);
             btnOp6.draw(window);
+            btnOp7.draw(window);
             btnBack.draw(window);
         }
 
