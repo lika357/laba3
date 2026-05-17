@@ -42,4 +42,16 @@ class Stack : private ArraySequence<T>
     {
         return this->GetLength();
     }
+    void operator+=(T item)
+    {
+        this->Push(item);
+    }
+    void operator--()
+    {
+        this->Pop();
+    }
+    T operator()()
+    {
+        return this->Peek();
+    }
 };

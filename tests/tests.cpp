@@ -81,3 +81,16 @@ void test_stack_get_size()
     s.Push(20);
     assert_func(s.GetSize() == 2);
 }
+void test_stack_operators()
+{
+    Stack<int> s;
+
+    s += 10;
+    assert_func(s() == 10);
+
+    s += 20;
+    assert_func(s() == 20);
+
+    --s;
+    assert_func(s() == 10);
+}
