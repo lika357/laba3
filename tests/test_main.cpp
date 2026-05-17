@@ -11,6 +11,7 @@ int main()
     test_array_sequence_resize();
     test_list_sequence_resize();
     test_stack_peek();
+    test_stack_is_empty();
 
     std::cout << "true " << get_true_tests() << "\n";
     std::cout << "false " << get_failed_tests() << "\n";

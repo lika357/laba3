@@ -34,4 +34,8 @@ class Stack : private ArraySequence<T>
         }
         return this->GetLast();
     }
+    bool IsEmpty() const
+    {
+        return this->GetLength() == 0;
+    }
 };

@@ -62,3 +62,11 @@ void test_stack_peek()
     val = s.Peek();
     assert_func(val == 20);
 }
+void test_stack_is_empty()
+{
+    Stack<int> s;
+    assert_func(s.IsEmpty() == true);
+
+    s.Push(10);
+    assert_func(s.IsEmpty() == false);
+}
