@@ -134,3 +134,13 @@ void test_queue_front_back()
     assert_func(q.Front() == 10);
     assert_func(q.Back() == 30);
 }
+void test_queue_empty_and_size()
+{
+    Queue<int> q;
+    assert_func(q.IsEmpty() == true);
+    assert_func(q.GetSize() == 0);
+
+    q.Enqueue(10);
+    assert_func(q.IsEmpty() == false);
+    assert_func(q.GetSize() == 1);
+}

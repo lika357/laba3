@@ -49,4 +49,13 @@ class Queue : private LinkedList<T>
         }
         return this->GetLast();
     }
+    bool IsEmpty() const
+    {
+        return this->GetLength() == 0;
+    }
+
+    size_t GetSize() const
+    {
+        return this->GetLength();
+    }
 };

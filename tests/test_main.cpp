@@ -18,6 +18,7 @@ int main()
     test_queue_enqueue();
     test_queue_dequeue();
     test_queue_front_back();
+    test_queue_empty_and_size();
 
     std::cout << "true " << get_true_tests() << "\n";
     std::cout << "false " << get_failed_tests() << "\n";
