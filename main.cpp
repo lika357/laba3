@@ -1,9 +1,10 @@
 
-#include <SFML/Graphics.hpp> 
-#include <sstream>           
-#include <string>            
-#include "stack.hpp"  
-#include "queue.hpp"   
+#include <SFML/Graphics.hpp>
+#include <sstream>
+#include <string>
+
+#include "queue.hpp"
+#include "stack.hpp"
 int main()
 {
     sf::RenderWindow window(sf::VideoMode({900, 650}), "LABA 3");
@@ -12,6 +13,15 @@ int main()
     {
         return 1;
     }
+    sf::Text title(font);
+
+    title.setString("CHOOSE STRUCTURE");
+
+    title.setCharacterSize(30);
+
+    title.setFillColor(sf::Color(101, 67, 33));
+
+    title.setPosition({250, 40});
 
     while (window.isOpen())
     {
@@ -22,9 +32,8 @@ int main()
                 window.close();
             }
         }
-        window.clear(sf::Color(255, 228, 225));  
-        window.display();  
-
+        window.clear(sf::Color(255, 228, 225));
+        window.display();
     }
     return 0;
 }
