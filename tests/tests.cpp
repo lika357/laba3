@@ -124,3 +124,13 @@ void test_queue_dequeue()
     val = q.Dequeue();
     assert_func(val == 30);
 }
+void test_queue_front_back()
+{
+    Queue<int> q;
+    q.Enqueue(10);
+    q.Enqueue(20);
+    q.Enqueue(30);
+
+    assert_func(q.Front() == 10);
+    assert_func(q.Back() == 30);
+}

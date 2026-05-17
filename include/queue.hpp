@@ -28,9 +28,25 @@ class Queue : private LinkedList<T>
         }
 
         LinkedList<T>& base = *this;
-        
+
         base = temp;
 
         return val;
+    }
+    T Front() const
+    {
+        if (this->GetLength() == 0)
+        {
+            throw InvalidArgument{};
+        }
+        return this->GetFirst();
+    }
+    T Back() const
+    {
+        if (this->GetLength() == 0)
+        {
+            throw InvalidArgument{};
+        }
+        return this->GetLast();
     }
 };
