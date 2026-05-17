@@ -45,6 +45,61 @@ class Button
     }
 };
 
+std::string stackToString(Stack<int>& s)
+{
+    if (s.IsEmpty()) return "[]";
+
+    std::ostringstream ss;
+    Stack<int> temp;
+
+    while (!s.IsEmpty())
+    {
+        int val = s.Pop();
+        temp.Push(val);
+    }
+
+    ss << "[";
+    bool first = true;
+    while (!temp.IsEmpty())
+    {
+        int val = temp.Pop();
+        if (!first) ss << ", ";
+        ss << val;
+        first = false;
+        s.Push(val);
+    }
+    ss << "]";
+
+    return ss.str();
+}
+std::string queueToString(Queue<int>& q)
+{
+    if (q.IsEmpty()) return "[]";
+
+    std::ostringstream ss;
+    Queue<int> temp;
+
+    while (!q.IsEmpty())
+    {
+        int val = q.Dequeue();
+        temp.Enqueue(val);
+    }
+
+    ss << "[";
+    bool first = true;
+    while (!temp.IsEmpty())
+    {
+        int val = temp.Dequeue();
+        if (!first) ss << ", ";
+        ss << val;
+        first = false;
+        q.Enqueue(val);
+    }
+    ss << "]";
+
+    return ss.str();
+}
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode({900, 650}), "LABA 3");
@@ -81,16 +136,61 @@ int main()
     Stack<int> stack;
     Queue<int> queue;
 
-    std::string input;
-    std::string result;
+    std::string input;   
+    std::string result;  
+    int inputMode = 0;    
 
-    int inputMode = 0;
+    sf::Text inputText(font);
+    inputText.setCharacterSize(28);
+    inputText.setFillColor(sf::Color::Black);
+    inputText.setPosition({250, 280});
+
+    sf::Text hint(font);
+    hint.setCharacterSize(20);
+    hint.setFillColor(sf::Color(120, 70, 70));
+    hint.setPosition({200, 360});
+
+    sf::Text output(font);
+    output.setCharacterSize(24);
+    output.setFillColor(sf::Color::Black);
+    output.setPosition({60, 200});
 
     while (window.isOpen())
     {
         while (auto event = window.pollEvent())
         {
             if (event->is<sf::Event::Closed>()) window.close();
+
+            if (screen == INPUT_SCREEN && event->is<sf::Event::TextEntered>())
+            {
+                auto* t = event->getIf<sf::Event::TextEntered>();
+
+                if (t->unicode == '\b' && !input.empty())
+                {
+                    input.pop_back();
+                }
+                else if (t->unicode == '\r' && !input.empty())
+                {
+                    int val = std::stoi(input);
+                    input.clear();
+
+                    if (inputMode == 1)
+                    {
+                        stack.Push(val);
+                        result = "Pushed: " + std::to_string(val);
+                    }
+                    else if (inputMode == 2)
+                    {
+                        queue.Enqueue(val);
+                        result = "Enqueued: " + std::to_string(val);
+                    }
+                    screen = RESULT_SCREEN;
+                }
+                else if ((t->unicode >= '0' && t->unicode <= '9') || t->unicode == '-')
+                {
+                    input += static_cast<char>(t->unicode);
+                }
+            }
 
             if (auto* m = event->getIf<sf::Event::MouseButtonPressed>())
             {
@@ -165,9 +265,10 @@ int main()
                                 result = "Stack is NOT empty";
                             screen = RESULT_SCREEN;
                         }
+
                         if (btnOp6.clicked(p))
                         {
-                            result = "Stack: []";
+                            result = "Stack: " + stackToString(stack);
                             screen = RESULT_SCREEN;
                         }
                     }
@@ -230,7 +331,7 @@ int main()
 
                         if (btnOp6.clicked(p))
                         {
-                            result = "Queue: []";
+                            result = "Queue: " + queueToString(queue);
                             screen = RESULT_SCREEN;
                         }
 
@@ -239,6 +340,13 @@ int main()
                             result = "Size: " + std::to_string(queue.GetSize());
                             screen = RESULT_SCREEN;
                         }
+                    }
+                }
+                else if (screen == RESULT_SCREEN)
+                {
+                    if (btnBack.clicked(p))
+                    {
+                        screen = MENU_SCREEN;
                     }
                 }
             }
@@ -258,6 +366,14 @@ int main()
             {
                 title.setString("QUEUE");
             }
+        }
+        else if (screen == INPUT_SCREEN)
+        {
+            title.setString("INPUT");
+        }
+        else if (screen == RESULT_SCREEN)
+        {
+            title.setString("RESULT");
         }
 
         if (screen == MENU_SCREEN)
@@ -301,6 +417,23 @@ int main()
             btnOp5.draw(window);
             btnOp6.draw(window);
             btnOp7.draw(window);
+            btnBack.draw(window);
+        }
+        else if (screen == INPUT_SCREEN)
+        {
+            if (containerType == 1)
+                hint.setString("Enter value to push:");
+            else
+                hint.setString("Enter value to enqueue:");
+
+            inputText.setString("> " + input + "_");
+            window.draw(inputText);
+            window.draw(hint);
+        }
+        else if (screen == RESULT_SCREEN)
+        {
+            output.setString(result);
+            window.draw(output);
             btnBack.draw(window);
         }
 
