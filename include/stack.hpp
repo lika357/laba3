@@ -8,4 +8,8 @@ class Stack : private ArraySequence<T>
     Stack() : ArraySequence<T>()
     {
     }
+    void Push(T item)
+    {
+        this->Append(item);
+    }
 };
