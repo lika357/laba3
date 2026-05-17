@@ -81,6 +81,11 @@ int main()
     Stack<int> stack;
     Queue<int> queue;
 
+    std::string input;
+    std::string result;
+
+    int inputMode = 0;
+
     while (window.isOpen())
     {
         while (auto event = window.pollEvent())
@@ -109,6 +114,131 @@ int main()
                     if (btnBack.clicked(p))
                     {
                         screen = TYPE_SCREEN;
+                    }
+
+                    if (containerType == 1)
+                    {
+                        if (btnOp1.clicked(p))
+                        {
+                            inputMode = 1;
+                            input.clear();
+                            screen = INPUT_SCREEN;
+                        }
+
+                        if (btnOp2.clicked(p))
+                        {
+                            try
+                            {
+                                result = "Pop: " + std::to_string(stack.Pop());
+                            }
+                            catch (const std::exception& e)
+                            {
+                                result = "Error: " + std::string(e.what());
+                            }
+                            screen = RESULT_SCREEN;
+                        }
+
+                        if (btnOp3.clicked(p))
+                        {
+                            try
+                            {
+                                result = "Peek: " + std::to_string(stack.Peek());
+                            }
+                            catch (const std::exception& e)
+                            {
+                                result = "Error: " + std::string(e.what());
+                            }
+                            screen = RESULT_SCREEN;
+                        }
+
+                        if (btnOp4.clicked(p))
+                        {
+                            result = "Size: " + std::to_string(stack.GetSize());
+                            screen = RESULT_SCREEN;
+                        }
+
+                        if (btnOp5.clicked(p))
+                        {
+                            if (stack.IsEmpty())
+                                result = "Stack is EMPTY";
+                            else
+                                result = "Stack is NOT empty";
+                            screen = RESULT_SCREEN;
+                        }
+                        if (btnOp6.clicked(p))
+                        {
+                            result = "Stack: []";
+                            screen = RESULT_SCREEN;
+                        }
+                    }
+                    else
+                    {
+                        if (btnOp1.clicked(p))
+                        {
+                            inputMode = 2;
+                            input.clear();
+                            screen = INPUT_SCREEN;
+                        }
+
+                        if (btnOp2.clicked(p))
+                        {
+                            try
+                            {
+                                result = "Dequeue: " + std::to_string(queue.Dequeue());
+                            }
+                            catch (const std::exception& e)
+                            {
+                                result = "Error: " + std::string(e.what());
+                            }
+                            screen = RESULT_SCREEN;
+                        }
+
+                        if (btnOp3.clicked(p))
+                        {
+                            try
+                            {
+                                result = "Front: " + std::to_string(queue.Front());
+                            }
+                            catch (const std::exception& e)
+                            {
+                                result = "Error: " + std::string(e.what());
+                            }
+                            screen = RESULT_SCREEN;
+                        }
+
+                        if (btnOp4.clicked(p))
+                        {
+                            try
+                            {
+                                result = "Back: " + std::to_string(queue.Back());
+                            }
+                            catch (const std::exception& e)
+                            {
+                                result = "Error: " + std::string(e.what());
+                            }
+                            screen = RESULT_SCREEN;
+                        }
+
+                        if (btnOp5.clicked(p))
+                        {
+                            if (queue.IsEmpty())
+                                result = "Queue is EMPTY";
+                            else
+                                result = "Queue is NOT empty";
+                            screen = RESULT_SCREEN;
+                        }
+
+                        if (btnOp6.clicked(p))
+                        {
+                            result = "Queue: []";
+                            screen = RESULT_SCREEN;
+                        }
+
+                        if (btnOp7.clicked(p))
+                        {
+                            result = "Size: " + std::to_string(queue.GetSize());
+                            screen = RESULT_SCREEN;
+                        }
                     }
                 }
             }
