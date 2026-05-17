@@ -12,4 +12,18 @@ class Stack : private ArraySequence<T>
     {
         this->Append(item);
     }
+    T Pop()
+    {
+        if (this->GetLength() == 0)
+        {
+            throw InvalidArgument{};
+        }
+
+        T val = this->GetLast();
+
+        size_t oldSize = this->GetLength();
+        this->Resize(oldSize - 1);
+
+        return val;
+    }
 };

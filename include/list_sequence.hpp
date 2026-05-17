@@ -88,4 +88,22 @@ class ListSequence : public Sequence<T>
         }
         return this;
     }
+    void Resize(size_t newSize) override
+    {
+        if (newSize == items.GetLength()) return;
+
+        while (items.GetLength() > newSize)
+        {
+            LinkedList<T> temp;
+            for (size_t i = 0; i < items.GetLength() - 1; i++)
+            {
+                temp.Append(items.Get(i));
+            }
+            items = temp;
+        }
+        while (items.GetLength() < newSize)
+        {
+            items.Append(T{});
+        }
+    }
 };

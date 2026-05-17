@@ -122,4 +122,8 @@ class ArraySequence : public Sequence<T>
         }
         return items[index];
     }
+    void Resize(size_t newSize) override
+    {
+        items.Resize(newSize);
+    }
 };
