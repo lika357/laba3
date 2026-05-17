@@ -1,10 +1,10 @@
-
 #include <SFML/Graphics.hpp>
 #include <sstream>
 #include <string>
 
 #include "queue.hpp"
 #include "stack.hpp"
+
 class Button
 {
    private:
@@ -38,42 +38,77 @@ class Button
     {
         return shape.getGlobalBounds().contains(m);
     }
-
     void draw(sf::RenderWindow& w)
     {
         w.draw(shape);
         w.draw(text);
     }
 };
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode({900, 650}), "LABA 3");
     sf::Font font;
-    if (!font.openFromFile("arial.ttf"))
-    {
-        return 1;
-    }
+    if (!font.openFromFile("arial.ttf")) return 1;
+
     sf::Text title(font);
-
-    title.setString("CHOOSE STRUCTURE");
-
     title.setCharacterSize(30);
-
     title.setFillColor(sf::Color(101, 67, 33));
-
     title.setPosition({250, 40});
+
+    Button btnStack(250, 150, 400, 60, "STACK", font);
+    Button btnQueue(250, 240, 400, 60, "QUEUE", font);
+
+    enum Screen
+    {
+        TYPE_SCREEN,
+        MENU_SCREEN,
+        INPUT_SCREEN,
+        RESULT_SCREEN
+    };
+    Screen screen = TYPE_SCREEN;
+    int containerType = 0;
+
+    Stack<int> stack;
+    Queue<int> queue;
 
     while (window.isOpen())
     {
         while (auto event = window.pollEvent())
         {
-            if (event->is<sf::Event::Closed>())
+            if (event->is<sf::Event::Closed>()) window.close();
+
+            if (auto* m = event->getIf<sf::Event::MouseButtonPressed>())
             {
-                window.close();
+                sf::Vector2f p = window.mapPixelToCoords(m->position);
+
+                if (screen == TYPE_SCREEN)
+                {
+                    if (btnStack.clicked(p))
+                    {
+                        containerType = 1;
+                        screen = MENU_SCREEN;
+                    }
+                    if (btnQueue.clicked(p))
+                    {
+                        containerType = 2;
+                        screen = MENU_SCREEN;
+                    }
+                }
             }
         }
+
         window.clear(sf::Color(255, 228, 225));
+        window.draw(title);
+
+        if (screen == TYPE_SCREEN)
+        {
+            btnStack.draw(window);
+            btnQueue.draw(window);
+        }
+
         window.display();
     }
+
     return 0;
 }
