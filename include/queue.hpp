@@ -28,6 +28,7 @@ class Queue : private LinkedList<T>
         }
 
         LinkedList<T>& base = *this;
+        
         base = temp;
 
         return val;
