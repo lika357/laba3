@@ -101,3 +101,26 @@ void test_queue_constructor()
     Queue<int> q;
     assert_func(true);
 }
+void test_queue_enqueue()
+{
+    Queue<int> q;
+    q.Enqueue(10);
+    q.Enqueue(20);
+    assert_func(true);
+}
+void test_queue_dequeue()
+{
+    Queue<int> q;
+    q.Enqueue(10);
+    q.Enqueue(20);
+    q.Enqueue(30);
+
+    int val = q.Dequeue();
+    assert_func(val == 10);
+
+    val = q.Dequeue();
+    assert_func(val == 20);
+
+    val = q.Dequeue();
+    assert_func(val == 30);
+}
