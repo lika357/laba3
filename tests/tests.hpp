@@ -9,3 +9,4 @@ void test_stack_peek();
 void test_stack_is_empty();
 void test_stack_get_size();
 void test_stack_operators();
+void test_queue_constructor();

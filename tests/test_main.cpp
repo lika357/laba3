@@ -14,6 +14,7 @@ int main()
     test_stack_is_empty();
     test_stack_get_size();
     test_stack_operators();
+    test_queue_constructor();
 
     std::cout << "true " << get_true_tests() << "\n";
     std::cout << "false " << get_failed_tests() << "\n";

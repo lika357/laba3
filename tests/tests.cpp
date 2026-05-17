@@ -1,5 +1,6 @@
 #include "../include/array_sequence.hpp"
 #include "../include/list_sequence.hpp"
+#include "../include/queue.hpp"
 #include "../include/stack.hpp"
 #include "assert.hpp"
 
@@ -93,4 +94,10 @@ void test_stack_operators()
 
     --s;
     assert_func(s() == 10);
+}
+
+void test_queue_constructor()
+{
+    Queue<int> q;
+    assert_func(true);
 }
