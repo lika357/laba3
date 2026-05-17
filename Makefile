@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -Wall -Wextra -std=c++20 -I include
 
-SRCS = tests/test_main.cpp tests/test.cpp tests/assert.cpp
+SRCS = tests/test_main.cpp tests/tests.cpp tests/assert.cpp
 FORMAT_FILES = include/*.hpp tests/*.cpp tests/*.hpp
 TARGET = test_runner
 
