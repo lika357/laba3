@@ -14,3 +14,4 @@ void test_queue_enqueue();
 void test_queue_dequeue();
 void test_queue_front_back();
 void test_queue_empty_and_size();
+void test_queue_operators();

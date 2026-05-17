@@ -58,4 +58,18 @@ class Queue : private LinkedList<T>
     {
         return this->GetLength();
     }
+    void operator+=(T item)
+    {
+        this->Enqueue(item);
+    }
+
+    void operator--()
+    {
+        this->Dequeue();
+    }
+
+    T operator()()
+    {
+        return this->Front();
+    }
 };

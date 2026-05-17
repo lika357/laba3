@@ -144,3 +144,16 @@ void test_queue_empty_and_size()
     assert_func(q.IsEmpty() == false);
     assert_func(q.GetSize() == 1);
 }
+void test_queue_operators()
+{
+    Queue<int> q;
+
+    q += 10;
+    assert_func(q() == 10);
+
+    q += 20;
+    assert_func(q() == 10);
+
+    --q;
+    assert_func(q() == 20);
+}
