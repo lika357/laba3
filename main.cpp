@@ -59,6 +59,14 @@ int main()
     Button btnStack(250, 150, 400, 60, "STACK", font);
     Button btnQueue(250, 240, 400, 60, "QUEUE", font);
 
+    Button btnOp1(250, 100, 400, 50, "", font);
+    Button btnOp2(250, 160, 400, 50, "", font);
+    Button btnOp3(250, 220, 400, 50, "", font);
+    Button btnOp4(250, 280, 400, 50, "", font);
+    Button btnOp5(250, 340, 400, 50, "", font);
+    Button btnOp6(250, 400, 400, 50, "", font);
+    Button btnBack(320, 520, 260, 50, "BACK", font);
+
     enum Screen
     {
         TYPE_SCREEN,
@@ -95,6 +103,13 @@ int main()
                         screen = MENU_SCREEN;
                     }
                 }
+                else if (screen == MENU_SCREEN)
+                {
+                    if (btnBack.clicked(p))
+                    {
+                        screen = TYPE_SCREEN;
+                    }
+                }
             }
         }
 
@@ -105,6 +120,16 @@ int main()
         {
             btnStack.draw(window);
             btnQueue.draw(window);
+        }
+        else if (screen == MENU_SCREEN)
+        {
+            btnOp1.draw(window);
+            btnOp2.draw(window);
+            btnOp3.draw(window);
+            btnOp4.draw(window);
+            btnOp5.draw(window);
+            btnOp6.draw(window);
+            btnBack.draw(window);
         }
 
         window.display();
