@@ -70,3 +70,14 @@ void test_stack_is_empty()
     s.Push(10);
     assert_func(s.IsEmpty() == false);
 }
+void test_stack_get_size()
+{
+    Stack<int> s;
+    assert_func(s.GetSize() == 0);
+
+    s.Push(10);
+    assert_func(s.GetSize() == 1);
+
+    s.Push(20);
+    assert_func(s.GetSize() == 2);
+}

@@ -38,4 +38,8 @@ class Stack : private ArraySequence<T>
     {
         return this->GetLength() == 0;
     }
+    size_t GetSize() const
+    {
+        return this->GetLength();
+    }
 };
