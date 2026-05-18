@@ -2,9 +2,9 @@
 #include <sstream>
 #include <string>
 
+#include "deque.hpp"
 #include "queue.hpp"
 #include "stack.hpp"
-#include "deque.hpp"
 
 class Button
 {
@@ -13,8 +13,7 @@ class Button
     sf::Text text;
 
    public:
-    Button(float x, float y, float w, float h, const std::string& str, sf::Font& font)
-        : text(font)
+    Button(float x, float y, float w, float h, const std::string& str, sf::Font& font) : text(font)
     {
         shape.setPosition({x, y});
         shape.setSize({w, h});
@@ -25,20 +24,15 @@ class Button
         text.setCharacterSize(22);
         text.setFillColor(sf::Color::Black);
         sf::FloatRect b = text.getLocalBounds();
-        text.setPosition({
-            x + w / 2 - b.size.x / 2,
-            y + h / 2 - b.size.y / 2 - 5
-        });
+        text.setPosition({x + w / 2 - b.size.x / 2, y + h / 2 - b.size.y / 2 - 5});
     }
 
     void setText(const std::string& str)
     {
         text.setString(str);
         sf::FloatRect b = text.getLocalBounds();
-        text.setPosition({
-            shape.getPosition().x + shape.getSize().x / 2 - b.size.x / 2,
-            shape.getPosition().y + shape.getSize().y / 2 - b.size.y / 2 - 5
-        });
+        text.setPosition({shape.getPosition().x + shape.getSize().x / 2 - b.size.x / 2,
+                          shape.getPosition().y + shape.getSize().y / 2 - b.size.y / 2 - 5});
     }
 
     bool clicked(sf::Vector2f m)
@@ -125,7 +119,8 @@ std::string queueToString(Queue<int>& q)
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode({900, 650}), "LABA 3");
+    sf::RenderWindow window(sf::VideoMode({900, 650}),
+                            "LABA 3");  // TODO:RenderWindow ПРОПИСАТЬ САМОЙ
     sf::Font font;
 
     if (!font.openFromFile("arial.ttf"))
@@ -168,7 +163,7 @@ int main()
 
     std::string input;
     std::string result;
-    int inputMode = 0;
+    int inputMode;
 
     sf::Text inputText(font);
     inputText.setCharacterSize(28);

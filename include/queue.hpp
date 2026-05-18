@@ -1,75 +1,80 @@
-#pragma once
-#include "linked_list.hpp"
 
-template <typename T>
-class Queue : private LinkedList<T>
+#pragma once
+#include "array_sequence.hpp"
+#include "concepts.hpp"
+#include "list_sequence.hpp"
+
+template <template <typename> class Container, typename T>
+    requires Queueable<Container<T>>
+class Queue
 {
+   private:
+    Container<T> c;
+
    public:
-    Queue() : LinkedList<T>()
+    Queue()
     {
     }
-    void Enqueue(T item)
+
+    void Enqueue(const T& val)
     {
-        this->Append(item);
+        c.PushBack(val);
     }
+
     T Dequeue()
     {
-        if (this->GetLength() == 0)
+        if (c.GetLength() == 0)
         {
             throw InvalidArgument{};
         }
-
-        T val = this->GetFirst();
-
-        LinkedList<T> temp;
-        for (size_t i = 1; i < this->GetLength(); i++)
-        {
-            temp.Append(this->Get(i));
-        }
-
-        LinkedList<T>& base = *this;
-
-        base = temp;
-
+        T val = c.Front();
+        c.PopFront();
         return val;
     }
-    T Front() const
+
+    T& Front()
     {
-        if (this->GetLength() == 0)
+        if (c.GetLength() == 0)
         {
             throw InvalidArgument{};
         }
-        return this->GetFirst();
+        return c.Front();
     }
-    T Back() const
+
+    T& Back()
     {
-        if (this->GetLength() == 0)
+        if (c.GetLength() == 0)
         {
             throw InvalidArgument{};
         }
-        return this->GetLast();
+        return c.Back();
     }
+
     bool IsEmpty() const
     {
-        return this->GetLength() == 0;
+        return c.GetLength() == 0;
     }
 
     size_t GetSize() const
     {
-        return this->GetLength();
-    }
-    void operator+=(T item)
-    {
-        this->Enqueue(item);
+        return c.GetLength();
     }
 
+    void operator+=(const T& v)
+    {
+        Enqueue(v);
+    }
     void operator--()
     {
-        this->Dequeue();
+        Dequeue();
     }
-
-    T operator()()
+    T& operator()()
     {
-        return this->Front();
+        return Front();
     }
 };
+template <typename T>
+using ArrayQueue = Queue<ArraySequence, T>;
+
+template <typename T>
+using ListQueue = Queue<ListSequence, T>;

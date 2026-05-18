@@ -10,6 +10,8 @@ class ArraySequence : public Sequence<T>
     DynamicArray<T> items;
 
    public:
+    using value_type = T;
+    using reference = T&;
     ArraySequence() : items{}
     {
     }
@@ -134,5 +136,52 @@ class ArraySequence : public Sequence<T>
         }
         items = other.items;
         return *this;
+    }
+    void PushBack(const T& item)
+    {
+        this->Append(item);
+    }
+
+    void PushFront(const T& item)
+    {
+        this->Prepend(item);
+    }
+
+    void PopBack()
+    {
+        if (this->GetLength() == 0)
+        {
+            throw InvalidArgument{};
+        }
+        this->Resize(this->GetLength() - 1);
+    }
+    void PopFront()
+    {
+        if (this->GetLength() == 0)
+        {
+            throw InvalidArgument{};
+        }
+        for (size_t i = 0; i < this->GetLength() - 1; i++)
+        {
+            (*this)[i] = (*this)[i + 1];
+        }
+        this->Resize(this->GetLength() - 1);
+    }
+    T& Back()
+    {
+        if (this->GetLength() == 0)
+        {
+            throw InvalidArgument{};
+        }
+        return (*this)[this->GetLength() - 1];
+    }
+
+    T& Front()
+    {
+        if (this->GetLength() == 0)
+        {
+            throw InvalidArgument{};
+        }
+        return (*this)[0];
     }
 };

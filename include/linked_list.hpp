@@ -88,33 +88,6 @@ class LinkedList
 
         return *this;
     }
-    T& operator[](size_t index)
-    {
-        if (index >= GetLength())
-        {
-            throw IndexOutOfRange{index, GetLength()};
-        }
-        Node* current = head;
-        for (size_t i = 0; i < index; i++)
-        {
-            current = current->next;
-        }
-        return current->value;
-    }
-
-    const T& operator[](size_t index) const
-    {
-        if (index >= GetLength())
-        {
-            throw IndexOutOfRange{index, GetLength()};
-        }
-        Node* current = head;
-        for (size_t i = 0; i < index; i++)
-        {
-            current = current->next;
-        }
-        return current->value;
-    }
     T GetFirst() const
     {
         if (head == nullptr)
@@ -230,5 +203,32 @@ class LinkedList
             current = current->next;
         }
         return result;
+    }
+    T& GetRef(size_t index)
+    {
+        if (index >= GetLength())
+        {
+            throw IndexOutOfRange{index, GetLength()};
+        }
+        Node* current = head;
+        for (size_t i = 0; i < index; i++)
+        {
+            current = current->next;
+        }
+        return current->value;
+    }
+
+    const T& GetRef(size_t index) const
+    {
+        if (index >= GetLength())
+        {
+            throw IndexOutOfRange{index, GetLength()};
+        }
+        const Node* current = head;
+        for (size_t i = 0; i < index; i++)
+        {
+            current = current->next;
+        }
+        return current->value;
     }
 };

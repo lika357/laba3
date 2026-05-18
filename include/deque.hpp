@@ -1,86 +1,97 @@
+
 #pragma once
 #include "array_sequence.hpp"
-#include "linked_list.hpp"
+#include "concepts.hpp"
+#include "list_sequence.hpp"
 
-template <typename T>
-class Deque : private ArraySequence<T>
+template <template <typename> class Container, typename T>
+    requires Dequeable<Container<T>>
+class Deque
 {
+   private:
+    Container<T> c;
+
    public:
-    Deque() : ArraySequence<T>()
+    Deque()
     {
     }
-    void PushFront(T item)
+
+    void PushFront(const T& val)
     {
-        this->Prepend(item);
+        c.PushFront(val);
     }
-    void PushBack(T item)
+
+    void PushBack(const T& val)
     {
-        this->Append(item);
+        c.PushBack(val);
     }
+
     T PopFront()
     {
-        if (this->GetLength() == 0)
+        if (c.GetLength() == 0)
         {
             throw InvalidArgument{};
         }
-
-        T val = this->GetFirst();
-
-        ArraySequence<T> temp;
-        for (size_t i = 1; i < this->GetLength(); i++)
-        {
-            temp.Append(this->Get(i));
-        }
-        ArraySequence<T>& base = *this;
-        base = temp;
+        T val = c.Front();
+        c.PopFront();
         return val;
     }
+
     T PopBack()
     {
-        if (this->GetLength() == 0)
+        if (c.GetLength() == 0)
         {
             throw InvalidArgument{};
         }
-
-        T val = this->GetLast();
-        size_t oldSize = this->GetLength();
-        this->Resize(oldSize - 1);
+        T val = c.Back();
+        c.PopBack();
         return val;
     }
+
+    T& Front()
+    {
+        if (c.GetLength() == 0)
+        {
+            throw InvalidArgument{};
+        }
+        return c.Front();
+    }
+
+    T& Back()
+    {
+        if (c.GetLength() == 0)
+        {
+            throw InvalidArgument{};
+        }
+        return c.Back();
+    }
+
     bool IsEmpty() const
     {
-        return this->GetLength() == 0;
+        return c.GetLength() == 0;
     }
-    T Front() const
-    {
-        if (this->GetLength() == 0)
-        {
-            throw InvalidArgument{};
-        }
-        return this->GetFirst();
-    }
-    T Back() const
-    {
-        if (this->GetLength() == 0)
-        {
-            throw InvalidArgument{};
-        }
-        return this->GetLast();
-    }
+
     size_t GetSize() const
     {
-        return this->GetLength();
+        return c.GetLength();
     }
-    void operator+=(T item)
+
+    void operator+=(const T& v)
     {
-        this->PushBack(item);
+        PushBack(v);
     }
     void operator--()
     {
-        this->PopBack();
+        PopBack();
     }
-    T operator()()
+    T& operator()()
     {
-        return this->Back();
+        return Back();
     }
 };
+
+template <typename T>
+using ArrayDeque = Deque<ArraySequence, T>;
+
+template <typename T>
+using ListDeque = Deque<ListSequence, T>;

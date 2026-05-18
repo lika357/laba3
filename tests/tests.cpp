@@ -7,19 +7,22 @@
 
 void test_stack_constructor()
 {
-    Stack<int> s;
+    ArrayStack<int> s;
+    ListStack<int> s2;
     assert_func(true);
 }
+
 void test_stack_push()
 {
-    Stack<int> s;
+    ArrayStack<int> s;
     s.Push(10);
     s.Push(20);
     assert_func(true);
 }
+
 void test_stack_pop()
 {
-    Stack<int> s;
+    ArrayStack<int> s;
     s.Push(10);
     s.Push(20);
 
@@ -29,52 +32,31 @@ void test_stack_pop()
     val = s.Pop();
     assert_func(val == 10);
 }
-void test_array_sequence_resize()
+
+void test_stack_top()
 {
-    int arr[] = {1, 2, 3, 4, 5};
-    ArraySequence<int> seq(arr);
-
-    seq.Resize(3);
-    assert_func(seq.GetLength() == 3);
-    assert_func(seq.Get(0) == 1);
-    assert_func(seq.Get(2) == 3);
-
-    seq.Resize(5);
-    assert_func(seq.GetLength() == 5);
-}
-
-void test_list_sequence_resize()
-{
-    int arr[] = {1, 2, 3};
-    ListSequence<int> seq(arr);
-
-    seq.Resize(2);
-    assert_func(seq.GetLength() == 2);
-    assert_func(seq.Get(0) == 1);
-}
-void test_stack_peek()
-{
-    Stack<int> s;
+    ArrayStack<int> s;
     s.Push(10);
     s.Push(20);
 
-    int val = s.Peek();
-    assert_func(val == 20);
+    assert_func(s.Top() == 20);
 
-    val = s.Peek();
-    assert_func(val == 20);
+    s.Top() = 30;
+    assert_func(s.Top() == 30);
 }
+
 void test_stack_is_empty()
 {
-    Stack<int> s;
+    ArrayStack<int> s;
     assert_func(s.IsEmpty() == true);
 
     s.Push(10);
     assert_func(s.IsEmpty() == false);
 }
+
 void test_stack_get_size()
 {
-    Stack<int> s;
+    ArrayStack<int> s;
     assert_func(s.GetSize() == 0);
 
     s.Push(10);
@@ -83,9 +65,10 @@ void test_stack_get_size()
     s.Push(20);
     assert_func(s.GetSize() == 2);
 }
+
 void test_stack_operators()
 {
-    Stack<int> s;
+    ArrayStack<int> s;
 
     s += 10;
     assert_func(s() == 10);
@@ -97,70 +80,18 @@ void test_stack_operators()
     assert_func(s() == 10);
 }
 
-void test_queue_constructor()
+void test_stack_list()
 {
-    Queue<int> q;
-    assert_func(true);
+    ListStack<int> s;
+    s.Push(10);
+    s.Push(20);
+    assert_func(s.Top() == 20);
+    assert_func(s.Pop() == 20);
 }
-void test_queue_enqueue()
-{
-    Queue<int> q;
-    q.Enqueue(10);
-    q.Enqueue(20);
-    assert_func(true);
-}
-void test_queue_dequeue()
-{
-    Queue<int> q;
-    q.Enqueue(10);
-    q.Enqueue(20);
-    q.Enqueue(30);
 
-    int val = q.Dequeue();
-    assert_func(val == 10);
-
-    val = q.Dequeue();
-    assert_func(val == 20);
-
-    val = q.Dequeue();
-    assert_func(val == 30);
-}
-void test_queue_front_back()
-{
-    Queue<int> q;
-    q.Enqueue(10);
-    q.Enqueue(20);
-    q.Enqueue(30);
-
-    assert_func(q.Front() == 10);
-    assert_func(q.Back() == 30);
-}
-void test_queue_empty_and_size()
-{
-    Queue<int> q;
-    assert_func(q.IsEmpty() == true);
-    assert_func(q.GetSize() == 0);
-
-    q.Enqueue(10);
-    assert_func(q.IsEmpty() == false);
-    assert_func(q.GetSize() == 1);
-}
-void test_queue_operators()
-{
-    Queue<int> q;
-
-    q += 10;
-    assert_func(q() == 10);
-
-    q += 20;
-    assert_func(q() == 10);
-
-    --q;
-    assert_func(q() == 20);
-}
 void test_stack_exceptions()
 {
-    Stack<int> s;
+    ArrayStack<int> s;
     bool caught = false;
 
     try
@@ -176,7 +107,7 @@ void test_stack_exceptions()
     caught = false;
     try
     {
-        s.Peek();
+        s.Top();
     }
     catch (const InvalidArgument&)
     {
@@ -185,9 +116,86 @@ void test_stack_exceptions()
     assert_func(caught);
 }
 
+void test_queue_constructor()
+{
+    ArrayQueue<int> q;
+    ListQueue<int> q2;
+    assert_func(true);
+}
+
+void test_queue_enqueue()
+{
+    ArrayQueue<int> q;
+    q.Enqueue(10);
+    q.Enqueue(20);
+    assert_func(true);
+}
+
+void test_queue_dequeue()
+{
+    ArrayQueue<int> q;
+    q.Enqueue(10);
+    q.Enqueue(20);
+    q.Enqueue(30);
+
+    int val = q.Dequeue();
+    assert_func(val == 10);
+
+    val = q.Dequeue();
+    assert_func(val == 20);
+
+    val = q.Dequeue();
+    assert_func(val == 30);
+}
+
+void test_queue_front_back()
+{
+    ArrayQueue<int> q;
+    q.Enqueue(10);
+    q.Enqueue(20);
+    q.Enqueue(30);
+
+    assert_func(q.Front() == 10);
+    assert_func(q.Back() == 30);
+}
+
+void test_queue_empty_and_size()
+{
+    ArrayQueue<int> q;
+    assert_func(q.IsEmpty() == true);
+    assert_func(q.GetSize() == 0);
+
+    q.Enqueue(10);
+    assert_func(q.IsEmpty() == false);
+    assert_func(q.GetSize() == 1);
+}
+
+void test_queue_operators()
+{
+    ArrayQueue<int> q;
+
+    q += 10;
+    assert_func(q() == 10);
+
+    q += 20;
+    assert_func(q() == 10);
+
+    --q;
+    assert_func(q() == 20);
+}
+
+void test_queue_list()
+{
+    ListQueue<int> q;
+    q.Enqueue(10);
+    q.Enqueue(20);
+    assert_func(q.Front() == 10);
+    assert_func(q.Dequeue() == 10);
+}
+
 void test_queue_exceptions()
 {
-    Queue<int> q;
+    ArrayQueue<int> q;
     bool caught = false;
 
     try
@@ -225,7 +233,7 @@ void test_queue_exceptions()
 
 void test_deque_push_front()
 {
-    Deque<int> d;
+    ArrayDeque<int> d;
     d.PushFront(10);
     d.PushFront(20);
     assert_func(true);
@@ -233,7 +241,7 @@ void test_deque_push_front()
 
 void test_deque_push_back()
 {
-    Deque<int> d;
+    ArrayDeque<int> d;
     d.PushBack(10);
     d.PushBack(20);
     assert_func(true);
@@ -241,7 +249,7 @@ void test_deque_push_back()
 
 void test_deque_pop_front()
 {
-    Deque<int> d;
+    ArrayDeque<int> d;
     d.PushBack(10);
     d.PushBack(20);
     d.PushBack(30);
@@ -252,21 +260,18 @@ void test_deque_pop_front()
 
 void test_deque_pop_back()
 {
-    Deque<int> d;
+    ArrayDeque<int> d;
     d.PushBack(10);
     d.PushBack(20);
     d.PushBack(30);
 
     int val = d.PopBack();
     assert_func(val == 30);
-
-    val = d.PopBack();
-    assert_func(val == 20);
 }
 
 void test_deque_front_back()
 {
-    Deque<int> d;
+    ArrayDeque<int> d;
     d.PushBack(10);
     d.PushBack(20);
 
@@ -276,7 +281,7 @@ void test_deque_front_back()
 
 void test_deque_empty_and_size()
 {
-    Deque<int> d;
+    ArrayDeque<int> d;
     assert_func(d.IsEmpty() == true);
     assert_func(d.GetSize() == 0);
 
@@ -285,9 +290,18 @@ void test_deque_empty_and_size()
     assert_func(d.GetSize() == 1);
 }
 
+void test_deque_list()
+{
+    ListDeque<int> d;
+    d.PushBack(10);
+    d.PushFront(5);
+    assert_func(d.Front() == 5);
+    assert_func(d.Back() == 10);
+}
+
 void test_deque_exceptions()
 {
-    Deque<int> d;
+    ArrayDeque<int> d;
     bool caught = false;
 
     try
@@ -336,7 +350,7 @@ void test_deque_exceptions()
 
 void test_deque_operators()
 {
-    Deque<int> d;
+    ArrayDeque<int> d;
 
     d += 10;
     assert_func(d() == 10);

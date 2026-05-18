@@ -1,57 +1,70 @@
 #pragma once
 #include "array_sequence.hpp"
+#include "concepts.hpp"
+#include "list_sequence.hpp"
 
-template <typename T>
-class Stack : private ArraySequence<T>
+template <template <typename> class Container, typename T>
+    requires Stackable<Container<T>>
+class Stack
 {
+   private:
+    Container<T> c;
+
    public:
-    Stack() : ArraySequence<T>()
+    Stack()
     {
     }
-    void Push(T item)
+
+    void Push(const T& val)
     {
-        this->Append(item);
+        c.PushBack(val);
     }
+
     T Pop()
     {
-        if (this->GetLength() == 0)
+        if (c.GetLength() == 0)
         {
             throw InvalidArgument{};
         }
-
-        T val = this->GetLast();
-
-        size_t oldSize = this->GetLength();
-        this->Resize(oldSize - 1);
-
+        T val = c.Back();
+        c.PopBack();
         return val;
     }
-    T Peek() const
+
+    T& Top()
     {
-        if (this->GetLength() == 0)
+        if (c.GetLength() == 0)
         {
             throw InvalidArgument{};
         }
-        return this->GetLast();
+        return c.Back();
     }
+
     bool IsEmpty() const
     {
-        return this->GetLength() == 0;
+        return c.GetLength() == 0;
     }
     size_t GetSize() const
     {
-        return this->GetLength();
+        return c.GetLength();
     }
-    void operator+=(T item)
+
+    void operator+=(const T& v)
     {
-        this->Push(item);
+        Push(v);
     }
     void operator--()
     {
-        this->Pop();
+        Pop();
     }
-    T operator()()
+    T& operator()()
     {
-        return this->Peek();
+        return Top();
     }
 };
+
+template <typename T>
+using ArrayStack = Stack<ArraySequence, T>;
+
+template <typename T>
+using ListStack = Stack<ListSequence, T>;
