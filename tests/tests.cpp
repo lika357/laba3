@@ -1,4 +1,5 @@
 #include "../include/array_sequence.hpp"
+#include "../include/deque.hpp"
 #include "../include/list_sequence.hpp"
 #include "../include/queue.hpp"
 #include "../include/stack.hpp"
@@ -220,4 +221,129 @@ void test_queue_exceptions()
         caught = true;
     }
     assert_func(caught);
+}
+
+void test_deque_push_front()
+{
+    Deque<int> d;
+    d.PushFront(10);
+    d.PushFront(20);
+    assert_func(true);
+}
+
+void test_deque_push_back()
+{
+    Deque<int> d;
+    d.PushBack(10);
+    d.PushBack(20);
+    assert_func(true);
+}
+
+void test_deque_pop_front()
+{
+    Deque<int> d;
+    d.PushBack(10);
+    d.PushBack(20);
+    d.PushBack(30);
+
+    int val = d.PopFront();
+    assert_func(val == 10);
+}
+
+void test_deque_pop_back()
+{
+    Deque<int> d;
+    d.PushBack(10);
+    d.PushBack(20);
+    d.PushBack(30);
+
+    int val = d.PopBack();
+    assert_func(val == 30);
+
+    val = d.PopBack();
+    assert_func(val == 20);
+}
+
+void test_deque_front_back()
+{
+    Deque<int> d;
+    d.PushBack(10);
+    d.PushBack(20);
+
+    assert_func(d.Front() == 10);
+    assert_func(d.Back() == 20);
+}
+
+void test_deque_empty_and_size()
+{
+    Deque<int> d;
+    assert_func(d.IsEmpty() == true);
+    assert_func(d.GetSize() == 0);
+
+    d.PushBack(10);
+    assert_func(d.IsEmpty() == false);
+    assert_func(d.GetSize() == 1);
+}
+
+void test_deque_exceptions()
+{
+    Deque<int> d;
+    bool caught = false;
+
+    try
+    {
+        d.PopFront();
+    }
+    catch (const InvalidArgument&)
+    {
+        caught = true;
+    }
+    assert_func(caught);
+
+    caught = false;
+    try
+    {
+        d.PopBack();
+    }
+    catch (const InvalidArgument&)
+    {
+        caught = true;
+    }
+    assert_func(caught);
+
+    caught = false;
+    try
+    {
+        d.Front();
+    }
+    catch (const InvalidArgument&)
+    {
+        caught = true;
+    }
+    assert_func(caught);
+
+    caught = false;
+    try
+    {
+        d.Back();
+    }
+    catch (const InvalidArgument&)
+    {
+        caught = true;
+    }
+    assert_func(caught);
+}
+
+void test_deque_operators()
+{
+    Deque<int> d;
+
+    d += 10;
+    assert_func(d() == 10);
+
+    d += 20;
+    assert_func(d() == 20);
+
+    --d;
+    assert_func(d() == 10);
 }

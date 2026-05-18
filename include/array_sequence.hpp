@@ -126,4 +126,13 @@ class ArraySequence : public Sequence<T>
     {
         items.Resize(newSize);
     }
+    ArraySequence<T>& operator=(const ArraySequence<T>& other)
+    {
+        if (this == &other)
+        {
+            return *this;
+        }
+        items = other.items;
+        return *this;
+    }
 };

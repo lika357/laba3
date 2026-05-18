@@ -4,6 +4,7 @@
 
 #include "queue.hpp"
 #include "stack.hpp"
+#include "deque.hpp"
 
 class Button
 {
@@ -12,7 +13,8 @@ class Button
     sf::Text text;
 
    public:
-    Button(float x, float y, float w, float h, const std::string& str, sf::Font& font) : text(font)
+    Button(float x, float y, float w, float h, const std::string& str, sf::Font& font)
+        : text(font)
     {
         shape.setPosition({x, y});
         shape.setSize({w, h});
@@ -23,21 +25,27 @@ class Button
         text.setCharacterSize(22);
         text.setFillColor(sf::Color::Black);
         sf::FloatRect b = text.getLocalBounds();
-        text.setPosition({x + w / 2 - b.size.x / 2, y + h / 2 - b.size.y / 2 - 5});
+        text.setPosition({
+            x + w / 2 - b.size.x / 2,
+            y + h / 2 - b.size.y / 2 - 5
+        });
     }
 
     void setText(const std::string& str)
     {
         text.setString(str);
         sf::FloatRect b = text.getLocalBounds();
-        text.setPosition({shape.getPosition().x + shape.getSize().x / 2 - b.size.x / 2,
-                          shape.getPosition().y + shape.getSize().y / 2 - b.size.y / 2 - 5});
+        text.setPosition({
+            shape.getPosition().x + shape.getSize().x / 2 - b.size.x / 2,
+            shape.getPosition().y + shape.getSize().y / 2 - b.size.y / 2 - 5
+        });
     }
 
     bool clicked(sf::Vector2f m)
     {
         return shape.getGlobalBounds().contains(m);
     }
+
     void draw(sf::RenderWindow& w)
     {
         w.draw(shape);
@@ -47,7 +55,10 @@ class Button
 
 std::string stackToString(Stack<int>& s)
 {
-    if (s.IsEmpty()) return "[]";
+    if (s.IsEmpty())
+    {
+        return "[]";
+    }
 
     std::ostringstream ss;
     Stack<int> temp;
@@ -60,21 +71,29 @@ std::string stackToString(Stack<int>& s)
 
     ss << "[";
     bool first = true;
+
     while (!temp.IsEmpty())
     {
         int val = temp.Pop();
-        if (!first) ss << ", ";
+        if (!first)
+        {
+            ss << ", ";
+        }
         ss << val;
         first = false;
         s.Push(val);
     }
-    ss << "]";
 
+    ss << "]";
     return ss.str();
 }
+
 std::string queueToString(Queue<int>& q)
 {
-    if (q.IsEmpty()) return "[]";
+    if (q.IsEmpty())
+    {
+        return "[]";
+    }
 
     std::ostringstream ss;
     Queue<int> temp;
@@ -87,16 +106,20 @@ std::string queueToString(Queue<int>& q)
 
     ss << "[";
     bool first = true;
+
     while (!temp.IsEmpty())
     {
         int val = temp.Dequeue();
-        if (!first) ss << ", ";
+        if (!first)
+        {
+            ss << ", ";
+        }
         ss << val;
         first = false;
         q.Enqueue(val);
     }
-    ss << "]";
 
+    ss << "]";
     return ss.str();
 }
 
@@ -104,15 +127,20 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode({900, 650}), "LABA 3");
     sf::Font font;
-    if (!font.openFromFile("arial.ttf")) return 1;
+
+    if (!font.openFromFile("arial.ttf"))
+    {
+        return 1;
+    }
 
     sf::Text title(font);
     title.setCharacterSize(30);
     title.setFillColor(sf::Color(101, 67, 33));
     title.setPosition({250, 40});
 
-    Button btnStack(250, 150, 400, 60, "STACK", font);
-    Button btnQueue(250, 240, 400, 60, "QUEUE", font);
+    Button btnStack(250, 120, 400, 55, "STACK", font);
+    Button btnQueue(250, 185, 400, 55, "QUEUE", font);
+    Button btnDeque(250, 250, 400, 55, "DEQUE", font);
 
     Button btnOp1(250, 100, 400, 50, "", font);
     Button btnOp2(250, 160, 400, 50, "", font);
@@ -130,15 +158,17 @@ int main()
         INPUT_SCREEN,
         RESULT_SCREEN
     };
+
     Screen screen = TYPE_SCREEN;
     int containerType = 0;
 
     Stack<int> stack;
     Queue<int> queue;
+    Deque<int> deque;
 
-    std::string input;   
-    std::string result;  
-    int inputMode = 0;    
+    std::string input;
+    std::string result;
+    int inputMode = 0;
 
     sf::Text inputText(font);
     inputText.setCharacterSize(28);
@@ -159,7 +189,10 @@ int main()
     {
         while (auto event = window.pollEvent())
         {
-            if (event->is<sf::Event::Closed>()) window.close();
+            if (event->is<sf::Event::Closed>())
+            {
+                window.close();
+            }
 
             if (screen == INPUT_SCREEN && event->is<sf::Event::TextEntered>())
             {
@@ -184,6 +217,17 @@ int main()
                         queue.Enqueue(val);
                         result = "Enqueued: " + std::to_string(val);
                     }
+                    else if (inputMode == 3)
+                    {
+                        deque.PushFront(val);
+                        result = "PushFront: " + std::to_string(val);
+                    }
+                    else if (inputMode == 4)
+                    {
+                        deque.PushBack(val);
+                        result = "PushBack: " + std::to_string(val);
+                    }
+
                     screen = RESULT_SCREEN;
                 }
                 else if ((t->unicode >= '0' && t->unicode <= '9') || t->unicode == '-')
@@ -208,6 +252,11 @@ int main()
                         containerType = 2;
                         screen = MENU_SCREEN;
                     }
+                    if (btnDeque.clicked(p))
+                    {
+                        containerType = 3;
+                        screen = MENU_SCREEN;
+                    }
                 }
                 else if (screen == MENU_SCREEN)
                 {
@@ -224,7 +273,6 @@ int main()
                             input.clear();
                             screen = INPUT_SCREEN;
                         }
-
                         if (btnOp2.clicked(p))
                         {
                             try
@@ -237,7 +285,6 @@ int main()
                             }
                             screen = RESULT_SCREEN;
                         }
-
                         if (btnOp3.clicked(p))
                         {
                             try
@@ -250,29 +297,30 @@ int main()
                             }
                             screen = RESULT_SCREEN;
                         }
-
                         if (btnOp4.clicked(p))
                         {
                             result = "Size: " + std::to_string(stack.GetSize());
                             screen = RESULT_SCREEN;
                         }
-
                         if (btnOp5.clicked(p))
                         {
                             if (stack.IsEmpty())
+                            {
                                 result = "Stack is EMPTY";
+                            }
                             else
+                            {
                                 result = "Stack is NOT empty";
+                            }
                             screen = RESULT_SCREEN;
                         }
-
                         if (btnOp6.clicked(p))
                         {
                             result = "Stack: " + stackToString(stack);
                             screen = RESULT_SCREEN;
                         }
                     }
-                    else
+                    else if (containerType == 2)
                     {
                         if (btnOp1.clicked(p))
                         {
@@ -280,7 +328,6 @@ int main()
                             input.clear();
                             screen = INPUT_SCREEN;
                         }
-
                         if (btnOp2.clicked(p))
                         {
                             try
@@ -293,7 +340,6 @@ int main()
                             }
                             screen = RESULT_SCREEN;
                         }
-
                         if (btnOp3.clicked(p))
                         {
                             try
@@ -306,7 +352,6 @@ int main()
                             }
                             screen = RESULT_SCREEN;
                         }
-
                         if (btnOp4.clicked(p))
                         {
                             try
@@ -319,25 +364,94 @@ int main()
                             }
                             screen = RESULT_SCREEN;
                         }
-
                         if (btnOp5.clicked(p))
                         {
                             if (queue.IsEmpty())
+                            {
                                 result = "Queue is EMPTY";
+                            }
                             else
+                            {
                                 result = "Queue is NOT empty";
+                            }
                             screen = RESULT_SCREEN;
                         }
-
                         if (btnOp6.clicked(p))
                         {
                             result = "Queue: " + queueToString(queue);
                             screen = RESULT_SCREEN;
                         }
-
                         if (btnOp7.clicked(p))
                         {
                             result = "Size: " + std::to_string(queue.GetSize());
+                            screen = RESULT_SCREEN;
+                        }
+                    }
+                    else if (containerType == 3)
+                    {
+                        if (btnOp1.clicked(p))
+                        {
+                            inputMode = 3;
+                            input.clear();
+                            screen = INPUT_SCREEN;
+                        }
+                        if (btnOp2.clicked(p))
+                        {
+                            inputMode = 4;
+                            input.clear();
+                            screen = INPUT_SCREEN;
+                        }
+                        if (btnOp3.clicked(p))
+                        {
+                            try
+                            {
+                                result = "PopFront: " + std::to_string(deque.PopFront());
+                            }
+                            catch (const std::exception& e)
+                            {
+                                result = "Error: " + std::string(e.what());
+                            }
+                            screen = RESULT_SCREEN;
+                        }
+                        if (btnOp4.clicked(p))
+                        {
+                            try
+                            {
+                                result = "PopBack: " + std::to_string(deque.PopBack());
+                            }
+                            catch (const std::exception& e)
+                            {
+                                result = "Error: " + std::string(e.what());
+                            }
+                            screen = RESULT_SCREEN;
+                        }
+                        if (btnOp5.clicked(p))
+                        {
+                            try
+                            {
+                                result = "Front: " + std::to_string(deque.Front());
+                            }
+                            catch (const std::exception& e)
+                            {
+                                result = "Error: " + std::string(e.what());
+                            }
+                            screen = RESULT_SCREEN;
+                        }
+                        if (btnOp6.clicked(p))
+                        {
+                            try
+                            {
+                                result = "Back: " + std::to_string(deque.Back());
+                            }
+                            catch (const std::exception& e)
+                            {
+                                result = "Error: " + std::string(e.what());
+                            }
+                            screen = RESULT_SCREEN;
+                        }
+                        if (btnOp7.clicked(p))
+                        {
+                            result = "Size: " + std::to_string(deque.GetSize());
                             screen = RESULT_SCREEN;
                         }
                     }
@@ -362,9 +476,13 @@ int main()
             {
                 title.setString("STACK");
             }
-            else
+            else if (containerType == 2)
             {
                 title.setString("QUEUE");
+            }
+            else if (containerType == 3)
+            {
+                title.setString("DEQUE");
             }
         }
         else if (screen == INPUT_SCREEN)
@@ -388,7 +506,7 @@ int main()
                 btnOp6.setText("Print");
                 btnOp7.setText("");
             }
-            else
+            else if (containerType == 2)
             {
                 btnOp1.setText("Enqueue");
                 btnOp2.setText("Dequeue");
@@ -396,6 +514,16 @@ int main()
                 btnOp4.setText("Back");
                 btnOp5.setText("IsEmpty");
                 btnOp6.setText("Print");
+                btnOp7.setText("GetSize");
+            }
+            else if (containerType == 3)
+            {
+                btnOp1.setText("PushFront");
+                btnOp2.setText("PushBack");
+                btnOp3.setText("PopFront");
+                btnOp4.setText("PopBack");
+                btnOp5.setText("Front");
+                btnOp6.setText("Back");
                 btnOp7.setText("GetSize");
             }
         }
@@ -407,6 +535,7 @@ int main()
         {
             btnStack.draw(window);
             btnQueue.draw(window);
+            btnDeque.draw(window);
         }
         else if (screen == MENU_SCREEN)
         {
@@ -422,10 +551,17 @@ int main()
         else if (screen == INPUT_SCREEN)
         {
             if (containerType == 1)
+            {
                 hint.setString("Enter value to push:");
-            else
+            }
+            else if (containerType == 2)
+            {
                 hint.setString("Enter value to enqueue:");
-
+            }
+            else if (containerType == 3)
+            {
+                hint.setString("Enter value:");
+            }
             inputText.setString("> " + input + "_");
             window.draw(inputText);
             window.draw(hint);

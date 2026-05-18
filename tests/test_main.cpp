@@ -22,6 +22,14 @@ int main()
     test_queue_operators();
     test_stack_exceptions();
     test_queue_exceptions();
+    test_deque_push_front();
+    test_deque_push_back();
+    test_deque_pop_front();
+    test_deque_pop_back();
+    test_deque_front_back();
+    test_deque_empty_and_size();
+    test_deque_exceptions();
+    test_deque_operators();
 
     std::cout << "true " << get_true_tests() << "\n";
     std::cout << "false " << get_failed_tests() << "\n";
