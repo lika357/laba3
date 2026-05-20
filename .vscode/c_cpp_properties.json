@@ -1,10 +1,13 @@
 {
     "configurations": [
         {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Users/anham/vcpkg/installed/x64-windows/include"
+            ],
             "cppStandard": "c++20",
-            "intelliSenseMode": "windows-gcc-x64",
-            "compilerPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe",
-            "cStandard": "c17"
+            "intelliSenseMode": "windows-msvc-x64"
         }
     ],
     "version": 4
