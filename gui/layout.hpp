@@ -18,10 +18,10 @@ class Layout : public Widget
     void draw(sf::RenderWindow& window) override
     {
         if (!visible) return;
-        for (size_t i = 0; i < widgets.GetLength(); i++)
-        {
-            widgets[i]->draw(window); 
-        }
+        for (auto& widget : widgets)
+           {
+             widget->draw(window);
+           }
     }
 
     void handleEvent(const sf::Event& event) override

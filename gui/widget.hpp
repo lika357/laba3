@@ -8,8 +8,12 @@ class Widget
     bool disabled = false;
     sf::Vector2f position = {0, 0};
     sf::Vector2f size = {200, 50};
+    static sf::Font defaultFont; 
 
    public:
+    static sf::Font& getDefaultFont() { 
+        return defaultFont;
+     }
     virtual ~Widget() = default;
 
     virtual void draw(sf::RenderWindow& window) = 0;

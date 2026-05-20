@@ -88,6 +88,38 @@ class LinkedList
 
         return *this;
     }
+    class iterator
+    {
+       private:
+        Node* current;
+
+       public:
+        iterator(Node* node) : current(node)
+        {
+        }
+        T& operator*()
+        {
+            return current->value;
+        }
+        iterator& operator++()
+        {
+            current = current->next;
+            return *this;
+        }
+        bool operator!=(const iterator& other) const
+        {
+            return current != other.current;
+        }
+    };
+
+    iterator begin()
+    {
+        return iterator(head);
+    }
+    iterator end()
+    {
+        return iterator(nullptr);
+    }
     T GetFirst() const
     {
         if (head == nullptr)

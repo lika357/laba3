@@ -11,9 +11,8 @@ class Edit : public Widget
     bool focused = false;   
 
    public:
-
-    Edit(sf::Font& font)
-        : text(font)
+    Edit()
+        : text(Widget::getDefaultFont())
     {
         text.setCharacterSize(28);
         text.setFillColor(sf::Color::Black);
@@ -56,8 +55,7 @@ class Edit : public Widget
         text.setString(display);
         window.draw(text);
     }
-
-
+    
     void handleEvent(const sf::Event& event) override
     {
         if (!visible || disabled) return;

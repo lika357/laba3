@@ -2,6 +2,7 @@
 #include "widget.hpp"
 #include <SFML/Graphics.hpp>
 #include <functional>
+
 class Button : public Widget
 {
    private:
@@ -10,8 +11,8 @@ class Button : public Widget
     std::function<void()> onClick;
 
    public:
-    Button(const std::string& label, sf::Font& font)
-        : text(font)
+    Button(const std::string& label)
+        : text(Widget::getDefaultFont())
     {
         shape.setFillColor(sf::Color::White);
         shape.setOutlineThickness(2);

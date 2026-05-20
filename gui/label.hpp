@@ -8,8 +8,8 @@ class Label : public Widget
     sf::Text text;
 
    public:
-    Label(const std::string& str, sf::Font& font)
-        : text(font)
+    Label(const std::string& str)
+        : text(Widget::getDefaultFont())
     {
         text.setString(str);
         text.setCharacterSize(24);
