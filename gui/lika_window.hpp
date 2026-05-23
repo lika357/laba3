@@ -19,39 +19,39 @@ class LikaWindow
     Label titleLabel{"CHOOSE STRUCTURE"};
 
     VerticalLayout chooseLayout{450.0f, 250.0f, 25.0f};
-    Button btnStack{"STACK"};
-    Button btnQueue{"QUEUE"};
-    Button btnDeque{"DEQUE"};
+    Button btnStack{"STACK", 300.0f, 70.0f};
+    Button btnQueue{"QUEUE", 300.0f, 70.0f};
+    Button btnDeque{"DEQUE", 300.0f, 70.0f};
 
     VerticalLayout workLayout{50.0f, 80.0f, 15.0f};
 
     HorizontalLayout stackButtons{50.0f, 80.0f, 10.0f};
-    Button sPush{"Push"};
-    Button sPop{"Pop"};
-    Button sTop{"Top"};
-    Button sSize{"Size"};
-    Button sEmpty{"Empty"};
-    Button sBack{"Back"};
+    Button sPush{"Push", 175.0f, 50.0f};
+    Button sPop{"Pop", 175.0f, 50.0f};
+    Button sTop{"Top", 175.0f, 50.0f};
+    Button sSize{"Size", 175.0f, 50.0f};
+    Button sEmpty{"Empty", 175.0f, 50.0f};
+    Button sBack{"Back", 175.0f, 50.0f};
 
     HorizontalLayout queueButtons{50.0f, 80.0f, 10.0f};
-    Button qEnqueue{"Enqueue"};
-    Button qDequeue{"Dequeue"};
-    Button qFront{"Front"};
-    Button qBack{"Back"};
-    Button qSize{"Size"};
-    Button qEmpty{"Empty"};
-    Button qReturn{"Back"};
+    Button qEnqueue{"Enqueue", 150.0f, 50.0f};
+    Button qDequeue{"Dequeue", 150.0f, 50.0f};
+    Button qFront{"Front", 150.0f, 50.0f};
+    Button qBack{"Back", 150.0f, 50.0f};
+    Button qSize{"Size", 150.0f, 50.0f};
+    Button qEmpty{"Empty", 150.0f, 50.0f};
+    Button qReturn{"Back", 150.0f, 50.0f};
 
     HorizontalLayout dequeButtons{50.0f, 80.0f, 10.0f};
-    Button dPushFront{"PushFront"};
-    Button dPushBack{"PushBack"};
-    Button dPopFront{"PopFront"};
-    Button dPopBack{"PopBack"};
-    Button dFront{"Front"};
-    Button dBack{"Back"};
-    Button dSize{"Size"};
-    Button dEmpty{"Empty"};
-    Button dReturn{"Return"};
+    Button dPushFront{"PushFront", 115.0f, 50.0f};
+    Button dPushBack{"PushBack", 115.0f, 50.0f};
+    Button dPopFront{"PopFront", 115.0f, 50.0f};
+    Button dPopBack{"PopBack", 115.0f, 50.0f};
+    Button dFront{"Front", 115.0f, 50.0f};
+    Button dBack{"Back", 115.0f, 50.0f};
+    Button dSize{"Size", 115.0f, 50.0f};
+    Button dEmpty{"Empty", 115.0f, 50.0f};
+    Button dReturn{"Return", 115.0f, 50.0f};
 
     Edit inputField;
     Label resultLabel{""};
@@ -66,45 +66,335 @@ class LikaWindow
     int activeStructure = 0;
     int dequeInputMode = 0;
 
+    void onStackClick()
+    {
+        chooseLayout.setVisible(false);
+        workLayout.setVisible(true);
+        stackButtons.setVisible(true);
+        queueButtons.setVisible(false);
+        dequeButtons.setVisible(false);
+        titleLabel.setText("STACK");
+        activeStructure = 1;
+        clearElements();
+    }
+
+    void onQueueClick()
+    {
+        chooseLayout.setVisible(false);
+        workLayout.setVisible(true);
+        stackButtons.setVisible(false);
+        queueButtons.setVisible(true);
+        dequeButtons.setVisible(false);
+        titleLabel.setText("QUEUE");
+        activeStructure = 2;
+        clearElements();
+    }
+
+    void onDequeClick()
+    {
+        chooseLayout.setVisible(false);
+        workLayout.setVisible(true);
+        stackButtons.setVisible(false);
+        queueButtons.setVisible(false);
+        dequeButtons.setVisible(true);
+        titleLabel.setText("DEQUE");
+        activeStructure = 3;
+        clearElements();
+    }
+
+    void onStackPush()
+    {
+        inputMode = true;
+        inputField.clear();
+        inputField.setVisible(true);
+        inputField.setFocused(true);
+        resultLabel.setVisible(false);
+    }
+
+    void onStackPop()
+    {
+        inputField.setVisible(false);
+        if (stack.IsEmpty())
+        {
+            resultLabel.setText("Stack is empty");
+            resultLabel.setVisible(true);
+        }
+        else
+        {
+            int val = stack.Pop();
+            resultLabel.setText("Popped: " + std::to_string(val));
+            resultLabel.setVisible(true);
+            elementsLayout.removeLast();
+        }
+    }
+
+    void onStackTop()
+    {
+        inputField.setVisible(false);
+        if (stack.IsEmpty())
+        {
+            resultLabel.setText("Stack is empty");
+            resultLabel.setVisible(true);
+        }
+        else
+        {
+            int val = stack.Top();
+            resultLabel.setText("Top: " + std::to_string(val));
+            resultLabel.setVisible(true);
+        }
+    }
+
+    void onStackSize()
+    {
+        inputField.setVisible(false);
+        resultLabel.setText("Size: " + std::to_string(stack.GetSize()));
+        resultLabel.setVisible(true);
+    }
+
+    void onStackEmpty()
+    {
+        inputField.setVisible(false);
+        resultLabel.setText(stack.IsEmpty() ? "Stack is EMPTY" : "Stack is NOT empty");
+        resultLabel.setVisible(true);
+    }
+
+    void onQueueEnqueue()
+    {
+        inputMode = true;
+        inputField.clear();
+        inputField.setVisible(true);
+        inputField.setFocused(true);
+        resultLabel.setVisible(false);
+    }
+
+    void onQueueDequeue()
+    {
+        inputField.setVisible(false);
+        if (queue.IsEmpty())
+        {
+            resultLabel.setText("Queue is empty");
+            resultLabel.setVisible(true);
+        }
+        else
+        {
+            int val = queue.Dequeue();
+            resultLabel.setText("Dequeued: " + std::to_string(val));
+            resultLabel.setVisible(true);
+            elementsLayout.removeLast();
+        }
+    }
+
+    void onQueueFront()
+    {
+        inputField.setVisible(false);
+        if (queue.IsEmpty())
+        {
+            resultLabel.setText("Queue is empty");
+            resultLabel.setVisible(true);
+        }
+        else
+        {
+            int val = queue.Front();
+            resultLabel.setText("Front: " + std::to_string(val));
+            resultLabel.setVisible(true);
+        }
+    }
+
+    void onQueueBack()
+    {
+        inputField.setVisible(false);
+        if (queue.IsEmpty())
+        {
+            resultLabel.setText("Queue is empty");
+            resultLabel.setVisible(true);
+        }
+        else
+        {
+            int val = queue.Back();
+            resultLabel.setText("Back: " + std::to_string(val));
+            resultLabel.setVisible(true);
+        }
+    }
+
+    void onQueueSize()
+    {
+        inputField.setVisible(false);
+        resultLabel.setText("Size: " + std::to_string(queue.GetSize()));
+        resultLabel.setVisible(true);
+    }
+
+    void onQueueEmpty()
+    {
+        inputField.setVisible(false);
+        resultLabel.setText(queue.IsEmpty() ? "Queue is EMPTY" : "Queue is NOT empty");
+        resultLabel.setVisible(true);
+    }
+
+    void onDequePushFront()
+    {
+        inputMode = true;
+        dequeInputMode = 1;
+        inputField.clear();
+        inputField.setVisible(true);
+        inputField.setFocused(true);
+        resultLabel.setVisible(false);
+    }
+
+    void onDequePushBack()
+    {
+        inputMode = true;
+        dequeInputMode = 2;
+        inputField.clear();
+        inputField.setVisible(true);
+        inputField.setFocused(true);
+        resultLabel.setVisible(false);
+    }
+
+    void onDequePopFront()
+    {
+        inputField.setVisible(false);
+        if (deque.IsEmpty())
+        {
+            resultLabel.setText("Deque is empty");
+            resultLabel.setVisible(true);
+        }
+        else
+        {
+            int val = deque.PopFront();
+            resultLabel.setText("PopFront: " + std::to_string(val));
+            resultLabel.setVisible(true);
+            elementsLayout.removeFirst();
+        }
+    }
+
+    void onDequePopBack()
+    {
+        inputField.setVisible(false);
+        if (deque.IsEmpty())
+        {
+            resultLabel.setText("Deque is empty");
+            resultLabel.setVisible(true);
+        }
+        else
+        {
+            int val = deque.PopBack();
+            resultLabel.setText("PopBack: " + std::to_string(val));
+            resultLabel.setVisible(true);
+            elementsLayout.removeLast();
+        }
+    }
+
+    void onDequeFront()
+    {
+        inputField.setVisible(false);
+        if (deque.IsEmpty())
+        {
+            resultLabel.setText("Deque is empty");
+            resultLabel.setVisible(true);
+        }
+        else
+        {
+            int val = deque.Front();
+            resultLabel.setText("Front: " + std::to_string(val));
+            resultLabel.setVisible(true);
+        }
+    }
+
+    void onDequeBack()
+    {
+        inputField.setVisible(false);
+        if (deque.IsEmpty())
+        {
+            resultLabel.setText("Deque is empty");
+            resultLabel.setVisible(true);
+        }
+        else
+        {
+            int val = deque.Back();
+            resultLabel.setText("Back: " + std::to_string(val));
+            resultLabel.setVisible(true);
+        }
+    }
+
+    void onDequeSize()
+    {
+        inputField.setVisible(false);
+        resultLabel.setText("Size: " + std::to_string(deque.GetSize()));
+        resultLabel.setVisible(true);
+    }
+
+    void onDequeEmpty()
+    {
+        inputField.setVisible(false);
+        resultLabel.setText(deque.IsEmpty() ? "Deque is EMPTY" : "Deque is NOT empty");
+        resultLabel.setVisible(true);
+    }
+
+    void onBackToMenu()
+    {
+        workLayout.setVisible(false);
+        chooseLayout.setVisible(true);
+        titleLabel.setText("CHOOSE STRUCTURE");
+        inputField.setVisible(false);
+        resultLabel.setVisible(false);
+        inputMode = false;
+        clearElements();
+    }
+
+    void handleStackInput(int value)
+    {
+        stack.Push(value);
+        resultLabel.setText("Pushed: " + std::to_string(value));
+        Button* elem = new Button(std::to_string(value), 80.0f, 80.0f);
+        elem->setColor(sf::Color(173, 216, 230));
+        elementsLayout.append(*elem);
+    }
+
+    void handleQueueInput(int value)
+    {
+        queue.Enqueue(value);
+        resultLabel.setText("Enqueued: " + std::to_string(value));
+        Button* elem = new Button(std::to_string(value), 80.0f, 80.0f);
+        elem->setColor(sf::Color(173, 216, 230));
+        elementsLayout.prepend(*elem);
+    }
+
+    void handleDequeInput(int value)
+    {
+        if (dequeInputMode == 1)
+        {
+            deque.PushFront(value);
+            resultLabel.setText("PushFront: " + std::to_string(value));
+            Button* elem = new Button(std::to_string(value), 80.0f, 80.0f);
+            elem->setColor(sf::Color(173, 216, 230));
+            elementsLayout.prepend(*elem);
+        }
+        else
+        {
+            deque.PushBack(value);
+            resultLabel.setText("PushBack: " + std::to_string(value));
+            Button* elem = new Button(std::to_string(value), 80.0f, 80.0f);
+            elem->setColor(sf::Color(173, 216, 230));
+            elementsLayout.append(*elem);
+        }
+        dequeInputMode = 0;
+    }
+
    public:
     LikaWindow(size_t width, size_t height, const std::string& title)
     {
         window.create(
-            sf::VideoMode({static_cast<unsigned int>(width), static_cast<unsigned int>(height)}),
+            sf::VideoMode({
+                static_cast<unsigned int>(width),
+                 static_cast<unsigned int>(height)
+                }),
             title);
 
-        if (!font.openFromFile("arial.ttf")) throw std::runtime_error("Failed not open");
+        if (!font.openFromFile("arial.ttf")){
+             throw std::runtime_error("Failed not open");
+        }
 
         Widget::getDefaultFont() = font;
-
-        btnStack.setSize(300.0f, 70.0f);
-        btnQueue.setSize(300.0f, 70.0f);
-        btnDeque.setSize(300.0f, 70.0f);
-
-        sPush.setSize(175.0f, 50.0f);
-        sPop.setSize(175.0f, 50.0f);
-        sTop.setSize(175.0f, 50.0f);
-        sSize.setSize(175.0f, 50.0f);
-        sEmpty.setSize(175.0f, 50.0f);
-        sBack.setSize(175.0f, 50.0f);
-
-        qEnqueue.setSize(150.0f, 50.0f);
-        qDequeue.setSize(150.0f, 50.0f);
-        qFront.setSize(150.0f, 50.0f);
-        qBack.setSize(150.0f, 50.0f);
-        qSize.setSize(150.0f, 50.0f);
-        qEmpty.setSize(150.0f, 50.0f);
-        qReturn.setSize(150.0f, 50.0f);
-
-        dPushFront.setSize(115.0f, 50.0f);
-        dPushBack.setSize(115.0f, 50.0f);
-        dPopFront.setSize(115.0f, 50.0f);
-        dPopBack.setSize(115.0f, 50.0f);
-        dFront.setSize(115.0f, 50.0f);
-        dBack.setSize(115.0f, 50.0f);
-        dSize.setSize(115.0f, 50.0f);
-        dEmpty.setSize(115.0f, 50.0f);
-        dReturn.setSize(115.0f, 50.0f);
 
         titleLabel.setPosition(450.0f, 20.0f);
 
@@ -150,327 +440,34 @@ class LikaWindow
         queueButtons.setVisible(false);
         dequeButtons.setVisible(false);
 
-        btnStack.setOnClick(
-            [&]()
-            {
-                chooseLayout.setVisible(false);
-                workLayout.setVisible(true);
-                stackButtons.setVisible(true);
-                queueButtons.setVisible(false);
-                dequeButtons.setVisible(false);
-                titleLabel.setText("STACK");
-                activeStructure = 1;
-                clearElements();
-            });
+        btnStack.setOnClick(std::bind(&LikaWindow::onStackClick, this));
+        btnQueue.setOnClick(std::bind(&LikaWindow::onQueueClick, this));
+        btnDeque.setOnClick(std::bind(&LikaWindow::onDequeClick, this));
 
-        btnQueue.setOnClick(
-            [&]()
-            {
-                chooseLayout.setVisible(false);
-                workLayout.setVisible(true);
-                stackButtons.setVisible(false);
-                queueButtons.setVisible(true);
-                dequeButtons.setVisible(false);
-                titleLabel.setText("QUEUE");
-                activeStructure = 2;
-                clearElements();
-            });
+        sPush.setOnClick(std::bind(&LikaWindow::onStackPush, this));
+        sPop.setOnClick(std::bind(&LikaWindow::onStackPop, this));
+        sTop.setOnClick(std::bind(&LikaWindow::onStackTop, this));
+        sSize.setOnClick(std::bind(&LikaWindow::onStackSize, this));
+        sEmpty.setOnClick(std::bind(&LikaWindow::onStackEmpty, this));
+        sBack.setOnClick(std::bind(&LikaWindow::onBackToMenu, this));
 
-        btnDeque.setOnClick(
-            [&]()
-            {
-                chooseLayout.setVisible(false);
-                workLayout.setVisible(true);
-                stackButtons.setVisible(false);
-                queueButtons.setVisible(false);
-                dequeButtons.setVisible(true);
-                titleLabel.setText("DEQUE");
-                activeStructure = 3;
-                clearElements();
-            });
+        qEnqueue.setOnClick(std::bind(&LikaWindow::onQueueEnqueue, this));
+        qDequeue.setOnClick(std::bind(&LikaWindow::onQueueDequeue, this));
+        qFront.setOnClick(std::bind(&LikaWindow::onQueueFront, this));
+        qBack.setOnClick(std::bind(&LikaWindow::onQueueBack, this));
+        qSize.setOnClick(std::bind(&LikaWindow::onQueueSize, this));
+        qEmpty.setOnClick(std::bind(&LikaWindow::onQueueEmpty, this));
+        qReturn.setOnClick(std::bind(&LikaWindow::onBackToMenu, this));
 
-        sPush.setOnClick(
-            [&]()
-            {
-                inputMode = true;
-                inputField.clear();
-                inputField.setVisible(true);
-                inputField.setFocused(true);
-                resultLabel.setVisible(false);
-            });
-
-        sPop.setOnClick(
-            [&]()
-            {
-                inputField.setVisible(false);
-                if (stack.IsEmpty())
-                {
-                    resultLabel.setText("Stack is empty");
-                    resultLabel.setVisible(true);
-                }
-                else
-                {
-                    int val = stack.Pop();
-                    resultLabel.setText("Popped: " + std::to_string(val));
-                    resultLabel.setVisible(true);
-                    elementsLayout.removeLast();
-                }
-            });
-
-        sTop.setOnClick(
-            [&]()
-            {
-                inputField.setVisible(false);
-                if (stack.IsEmpty())
-                {
-                    resultLabel.setText("Stack is empty");
-                    resultLabel.setVisible(true);
-                }
-                else
-                {
-                    int val = stack.Top();
-                    resultLabel.setText("Top: " + std::to_string(val));
-                    resultLabel.setVisible(true);
-                }
-            });
-
-        sSize.setOnClick(
-            [&]()
-            {
-                inputField.setVisible(false);
-                resultLabel.setText("Size: " + std::to_string(stack.GetSize()));
-                resultLabel.setVisible(true);
-            });
-
-        sEmpty.setOnClick(
-            [&]()
-            {
-                inputField.setVisible(false);
-                resultLabel.setText(stack.IsEmpty() ? "Stack is EMPTY" : "Stack is NOT empty");
-                resultLabel.setVisible(true);
-            });
-
-        sBack.setOnClick(
-            [&]()
-            {
-                workLayout.setVisible(false);
-                chooseLayout.setVisible(true);
-                titleLabel.setText("CHOOSE STRUCTURE");
-                inputField.setVisible(false);
-                resultLabel.setVisible(false);
-                inputMode = false;
-                clearElements();
-            });
-
-        qEnqueue.setOnClick(
-            [&]()
-            {
-                inputMode = true;
-                inputField.clear();
-                inputField.setVisible(true);
-                inputField.setFocused(true);
-                resultLabel.setVisible(false);
-            });
-
-        qDequeue.setOnClick(
-            [&]()
-            {
-                inputField.setVisible(false);
-                if (queue.IsEmpty())
-                {
-                    resultLabel.setText("Queue is empty");
-                    resultLabel.setVisible(true);
-                }
-                else
-                {
-                    int val = queue.Dequeue();
-                    resultLabel.setText("Dequeued: " + std::to_string(val));
-                    resultLabel.setVisible(true);
-                    elementsLayout.removeLast();
-                }
-            });
-
-        qFront.setOnClick(
-            [&]()
-            {
-                inputField.setVisible(false);
-                if (queue.IsEmpty())
-                {
-                    resultLabel.setText("Queue is empty");
-                    resultLabel.setVisible(true);
-                }
-                else
-                {
-                    int val = queue.Front();
-                    resultLabel.setText("Front: " + std::to_string(val));
-                    resultLabel.setVisible(true);
-                }
-            });
-
-        qBack.setOnClick(
-            [&]()
-            {
-                inputField.setVisible(false);
-                if (queue.IsEmpty())
-                {
-                    resultLabel.setText("Queue is empty");
-                    resultLabel.setVisible(true);
-                }
-                else
-                {
-                    int val = queue.Back();
-                    resultLabel.setText("Back: " + std::to_string(val));
-                    resultLabel.setVisible(true);
-                }
-            });
-
-        qSize.setOnClick(
-            [&]()
-            {
-                inputField.setVisible(false);
-                resultLabel.setText("Size: " + std::to_string(queue.GetSize()));
-                resultLabel.setVisible(true);
-            });
-
-        qEmpty.setOnClick(
-            [&]()
-            {
-                inputField.setVisible(false);
-                resultLabel.setText(queue.IsEmpty() ? "Queue is EMPTY" : "Queue is NOT empty");
-                resultLabel.setVisible(true);
-            });
-
-        qReturn.setOnClick(
-            [&]()
-            {
-                workLayout.setVisible(false);
-                chooseLayout.setVisible(true);
-                titleLabel.setText("CHOOSE STRUCTURE");
-                inputField.setVisible(false);
-                resultLabel.setVisible(false);
-                inputMode = false;
-                clearElements();
-            });
-
-        dPushFront.setOnClick(
-            [&]()
-            {
-                inputMode = true;
-                dequeInputMode = 1;
-                inputField.clear();
-                inputField.setVisible(true);
-                inputField.setFocused(true);
-                resultLabel.setVisible(false);
-            });
-
-        dPushBack.setOnClick(
-            [&]()
-            {
-                inputMode = true;
-                dequeInputMode = 2;
-                inputField.clear();
-                inputField.setVisible(true);
-                inputField.setFocused(true);
-                resultLabel.setVisible(false);
-            });
-
-        dPopFront.setOnClick(
-            [&]()
-            {
-                inputField.setVisible(false);
-                if (deque.IsEmpty())
-                {
-                    resultLabel.setText("Deque is empty");
-                    resultLabel.setVisible(true);
-                }
-                else
-                {
-                    int val = deque.PopFront();
-                    resultLabel.setText("PopFront: " + std::to_string(val));
-                    resultLabel.setVisible(true);
-                    elementsLayout.removeFirst();
-                }
-            });
-
-        dPopBack.setOnClick(
-            [&]()
-            {
-                inputField.setVisible(false);
-                if (deque.IsEmpty())
-                {
-                    resultLabel.setText("Deque is empty");
-                    resultLabel.setVisible(true);
-                }
-                else
-                {
-                    int val = deque.PopBack();
-                    resultLabel.setText("PopBack: " + std::to_string(val));
-                    resultLabel.setVisible(true);
-                    elementsLayout.removeLast();
-                }
-            });
-
-        dFront.setOnClick(
-            [&]()
-            {
-                inputField.setVisible(false);
-                if (deque.IsEmpty())
-                {
-                    resultLabel.setText("Deque is empty");
-                    resultLabel.setVisible(true);
-                }
-                else
-                {
-                    int val = deque.Front();
-                    resultLabel.setText("Front: " + std::to_string(val));
-                    resultLabel.setVisible(true);
-                }
-            });
-
-        dBack.setOnClick(
-            [&]()
-            {
-                inputField.setVisible(false);
-                if (deque.IsEmpty())
-                {
-                    resultLabel.setText("Deque is empty");
-                    resultLabel.setVisible(true);
-                }
-                else
-                {
-                    int val = deque.Back();
-                    resultLabel.setText("Back: " + std::to_string(val));
-                    resultLabel.setVisible(true);
-                }
-            });
-
-        dSize.setOnClick(
-            [&]()
-            {
-                inputField.setVisible(false);
-                resultLabel.setText("Size: " + std::to_string(deque.GetSize()));
-                resultLabel.setVisible(true);
-            });
-
-        dEmpty.setOnClick(
-            [&]()
-            {
-                inputField.setVisible(false);
-                resultLabel.setText(deque.IsEmpty() ? "Deque is EMPTY" : "Deque is NOT empty");
-                resultLabel.setVisible(true);
-            });
-
-        dReturn.setOnClick(
-            [&]()
-            {
-                workLayout.setVisible(false);
-                chooseLayout.setVisible(true);
-                titleLabel.setText("CHOOSE STRUCTURE");
-                inputField.setVisible(false);
-                resultLabel.setVisible(false);
-                inputMode = false;
-                clearElements();
-            });
+        dPushFront.setOnClick(std::bind(&LikaWindow::onDequePushFront, this));
+        dPushBack.setOnClick(std::bind(&LikaWindow::onDequePushBack, this));
+        dPopFront.setOnClick(std::bind(&LikaWindow::onDequePopFront, this));
+        dPopBack.setOnClick(std::bind(&LikaWindow::onDequePopBack, this));
+        dFront.setOnClick(std::bind(&LikaWindow::onDequeFront, this));
+        dBack.setOnClick(std::bind(&LikaWindow::onDequeBack, this));
+        dSize.setOnClick(std::bind(&LikaWindow::onDequeSize, this));
+        dEmpty.setOnClick(std::bind(&LikaWindow::onDequeEmpty, this));
+        dReturn.setOnClick(std::bind(&LikaWindow::onBackToMenu, this));
 
         workLayout.setVisible(false);
     }
@@ -492,7 +489,9 @@ class LikaWindow
         {
             while (auto event = window.pollEvent())
             {
-                if (event->is<sf::Event::Closed>()) window.close();
+                if (event->is<sf::Event::Closed>()){
+                     window.close();
+                }
 
                 if (inputField.isVisible())
                 {
@@ -509,38 +508,12 @@ class LikaWindow
                     inputField.setVisible(false);
                     inputMode = false;
 
-                    Button* elem = new Button(std::to_string(value));
-                    elem->setSize(80.0f, 80.0f);
-                    elem->setColor(sf::Color(173, 216, 230));
-
                     if (activeStructure == 1)
-                    {
-                        stack.Push(value);
-                        resultLabel.setText("Pushed: " + std::to_string(value));
-                        elementsLayout.append(*elem);
-                    }
+                        handleStackInput(value);
                     else if (activeStructure == 2)
-                    {
-                        queue.Enqueue(value);
-                        resultLabel.setText("Enqueued: " + std::to_string(value));
-                        elementsLayout.prepend(*elem);
-                    }
+                        handleQueueInput(value);
                     else if (activeStructure == 3)
-                    {
-                        if (dequeInputMode == 1)
-                        {
-                            deque.PushFront(value);
-                            resultLabel.setText("PushFront: " + std::to_string(value));
-                            elementsLayout.prepend(*elem);
-                        }
-                        else
-                        {
-                            deque.PushBack(value);
-                            resultLabel.setText("PushBack: " + std::to_string(value));
-                            elementsLayout.append(*elem);
-                        }
-                        dequeInputMode = 0;
-                    }
+                        handleDequeInput(value);
 
                     resultLabel.setVisible(true);
                 }
