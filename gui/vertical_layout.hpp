@@ -7,10 +7,11 @@ class VerticalLayout : public Layout
     float startX, startY, gap;
 
    public:
-    VerticalLayout(float x, float y, float spacing = 10)
-        : startX(x), startY(y), gap(spacing) {}
+    VerticalLayout(float x, float y, float spacing = 10) : startX(x), startY(y), gap(spacing)
+    {
+    }
 
-    void addWidget(Widget& widget)
+    Layout& append(Widget& widget) override
     {
         float currentY = startY;
 
@@ -21,6 +22,19 @@ class VerticalLayout : public Layout
         }
 
         widget.setPosition(startX, currentY);
-        widgets.Append(&widget); 
+        widgets.Append(&widget);
+        return *this;
+    }
+    Layout& prepend(Widget& widget) override
+    {
+        float shift = widget.getSize().y + gap;
+        for (size_t i = 0; i < widgets.GetLength(); i++)
+        {
+            Widget* w = widgets[i];
+            w->setPosition(w->getPosition().x, w->getPosition().y + shift);
+        }
+        widget.setPosition(startX, startY);
+        Layout::prepend(widget);
+        return *this;
     }
 };

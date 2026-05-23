@@ -1,6 +1,7 @@
 #pragma once
-#include "widget.hpp"
 #include <SFML/Graphics.hpp>
+
+#include "widget.hpp"
 
 class Label : public Widget
 {
@@ -8,8 +9,7 @@ class Label : public Widget
     sf::Text text;
 
    public:
-    Label(const std::string& str)
-        : text(Widget::getDefaultFont())
+    Label(const std::string& str) : text(Widget::getDefaultFont())
     {
         text.setString(str);
         text.setCharacterSize(24);

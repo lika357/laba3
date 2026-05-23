@@ -8,18 +8,19 @@ class Widget
     bool disabled = false;
     sf::Vector2f position = {0, 0};
     sf::Vector2f size = {200, 50};
-    static sf::Font defaultFont; 
+    static sf::Font defaultFont;
 
    public:
-    static sf::Font& getDefaultFont() { 
+    static sf::Font& getDefaultFont()
+    {
         return defaultFont;
-     }
+    }
     virtual ~Widget() = default;
 
     virtual void draw(sf::RenderWindow& window) = 0;
     virtual void handleEvent(const sf::Event& event) = 0;
 
-    void setPosition(float x, float y)
+    virtual void setPosition(float x, float y)
     {
         position = {x, y};
     }
@@ -29,7 +30,7 @@ class Widget
         return position;
     }
 
-    void setSize(float w, float h)
+    virtual void setSize(float w, float h)
     {
         size = {w, h};
     }
@@ -44,7 +45,7 @@ class Widget
         visible = v;
     }
     bool isVisible() const
-{
-    return visible;
-}
+    {
+        return visible;
+    }
 };

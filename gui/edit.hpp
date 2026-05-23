@@ -1,18 +1,18 @@
 #pragma once
-#include "widget.hpp"
 #include <SFML/Graphics.hpp>
 #include <string>
+
+#include "widget.hpp"
 
 class Edit : public Widget
 {
    private:
-    sf::Text text;          
-    std::string input;      
-    bool focused = false;   
+    sf::Text text;
+    std::string input;
+    bool focused = false;
 
    public:
-    Edit()
-        : text(Widget::getDefaultFont())
+    Edit() : text(Widget::getDefaultFont())
     {
         text.setCharacterSize(28);
         text.setFillColor(sf::Color::Black);
@@ -49,28 +49,25 @@ class Edit : public Widget
         if (!visible) return;
 
         std::string display = input;
-        if (focused)
-            display += "_";
+        if (focused) display += "_";
 
         text.setString(display);
         window.draw(text);
     }
-    
+
     void handleEvent(const sf::Event& event) override
     {
         if (!visible || disabled) return;
 
         if (auto* mouse = event.getIf<sf::Event::MouseButtonPressed>())
         {
-            sf::Vector2f mousePos = {
-                static_cast<float>(mouse->position.x),
-                static_cast<float>(mouse->position.y)
-            };
+            sf::Vector2f mousePos = {static_cast<float>(mouse->position.x),
+                                     static_cast<float>(mouse->position.y)};
 
             if (text.getGlobalBounds().contains(mousePos))
                 focused = true;
             else
-                focused = false; 
+                focused = false;
         }
 
         if (focused && event.is<sf::Event::TextEntered>())

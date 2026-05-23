@@ -12,12 +12,14 @@ class ListSequence : public Sequence<T>
    public:
     using value_type = T;
     using reference = T&;
-    typename LinkedList<T>::iterator begin() { 
+    typename LinkedList<T>::iterator begin()
+    {
         return items.begin();
-     }
-    typename LinkedList<T>::iterator end() {
-         return items.end(); 
-        }
+    }
+    typename LinkedList<T>::iterator end()
+    {
+        return items.end();
+    }
     ListSequence() : items{}
     {
     }

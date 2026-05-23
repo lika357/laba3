@@ -1,7 +1,8 @@
 #pragma once
-#include "widget.hpp"
 #include <SFML/Graphics.hpp>
 #include <functional>
+
+#include "widget.hpp"
 
 class Button : public Widget
 {
@@ -11,8 +12,7 @@ class Button : public Widget
     std::function<void()> onClick;
 
    public:
-    Button(const std::string& label)
-        : text(Widget::getDefaultFont())
+    Button(const std::string& label) : text(Widget::getDefaultFont())
     {
         shape.setFillColor(sf::Color::White);
         shape.setOutlineThickness(2);
@@ -23,17 +23,15 @@ class Button : public Widget
         shape.setSize({200, 50});
     }
 
-    void setPosition(float x, float y)
+    void setPosition(float x, float y) override
     {
         Widget::setPosition(x, y);
         shape.setPosition({x, y});
         sf::FloatRect b = text.getLocalBounds();
-        text.setPosition(
-            {x + size.x / 2 - b.size.x / 2,
-             y + size.y / 2 - b.size.y / 2 - 5});
+        text.setPosition({x + size.x / 2 - b.size.x / 2, y + size.y / 2 - b.size.y / 2 - 5});
     }
 
-    void setSize(float w, float h)
+    void setSize(float w, float h) override
     {
         Widget::setSize(w, h);
         shape.setSize({w, h});
@@ -50,6 +48,10 @@ class Button : public Widget
         window.draw(shape);
         window.draw(text);
     }
+    void setColor(sf::Color fillColor)
+    {
+        shape.setFillColor(fillColor);
+    }
 
     void handleEvent(const sf::Event& event) override
     {
@@ -57,8 +59,7 @@ class Button : public Widget
         if (auto* mouse = event.getIf<sf::Event::MouseButtonPressed>())
         {
             if (shape.getGlobalBounds().contains(
-                    {static_cast<float>(mouse->position.x),
-                     static_cast<float>(mouse->position.y)}))
+                    {static_cast<float>(mouse->position.x), static_cast<float>(mouse->position.y)}))
             {
                 if (onClick) onClick();
             }

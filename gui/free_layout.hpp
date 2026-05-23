@@ -4,8 +4,9 @@
 class FreeLayout : public Layout
 {
    public:
-    void addWidget(Widget& widget)
+    Layout& append(Widget& widget) override
     {
         widgets.Append(&widget);
+        return *this;
     }
 };
