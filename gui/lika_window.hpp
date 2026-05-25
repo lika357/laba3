@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 #include "../include/deque.hpp"
 #include "../include/list_sequence.hpp"
@@ -7,9 +8,12 @@
 #include "../include/stack.hpp"
 #include "button.hpp"
 #include "config.hpp"
+#include "deque_layout.hpp"
 #include "edit.hpp"
 #include "horizontal_layout.hpp"
 #include "label.hpp"
+#include "queue_layout.hpp"
+#include "stack_layout.hpp"
 #include "vertical_layout.hpp"
 
 class LikaWindow
@@ -28,36 +32,9 @@ class LikaWindow
     VerticalLayout workLayout{LayoutPositions::WORK_X, LayoutPositions::WORK_Y,
                               LayoutPositions::WORK_GAP};
 
-    HorizontalLayout stackButtons{LayoutPositions::WORK_X, LayoutPositions::WORK_Y,
-                                  LayoutPositions::FUNC_GAP};
-    Button sPush{"Push", ButtonSizes::STACK_W, ButtonSizes::STACK_H};
-    Button sPop{"Pop", ButtonSizes::STACK_W, ButtonSizes::STACK_H};
-    Button sTop{"Top", ButtonSizes::STACK_W, ButtonSizes::STACK_H};
-    Button sSize{"Size", ButtonSizes::STACK_W, ButtonSizes::STACK_H};
-    Button sEmpty{"Empty", ButtonSizes::STACK_W, ButtonSizes::STACK_H};
-    Button sBack{"Back", ButtonSizes::STACK_W, ButtonSizes::STACK_H};
-
-    HorizontalLayout queueButtons{LayoutPositions::WORK_X, LayoutPositions::WORK_Y,
-                                  LayoutPositions::FUNC_GAP};
-    Button qEnqueue{"Enqueue", ButtonSizes::QUEUE_W, ButtonSizes::QUEUE_H};
-    Button qDequeue{"Dequeue", ButtonSizes::QUEUE_W, ButtonSizes::QUEUE_H};
-    Button qFront{"Front", ButtonSizes::QUEUE_W, ButtonSizes::QUEUE_H};
-    Button qBack{"Back", ButtonSizes::QUEUE_W, ButtonSizes::QUEUE_H};
-    Button qSize{"Size", ButtonSizes::QUEUE_W, ButtonSizes::QUEUE_H};
-    Button qEmpty{"Empty", ButtonSizes::QUEUE_W, ButtonSizes::QUEUE_H};
-    Button qReturn{"Back", ButtonSizes::QUEUE_W, ButtonSizes::QUEUE_H};
-
-    HorizontalLayout dequeButtons{LayoutPositions::WORK_X, LayoutPositions::WORK_Y,
-                                  LayoutPositions::FUNC_GAP};
-    Button dPushFront{"PushFront", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
-    Button dPushBack{"PushBack", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
-    Button dPopFront{"PopFront", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
-    Button dPopBack{"PopBack", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
-    Button dFront{"Front", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
-    Button dBack{"Back", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
-    Button dSize{"Size", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
-    Button dEmpty{"Empty", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
-    Button dReturn{"Back", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
+    std::unique_ptr<StackLayout> stackLayout;
+    std::unique_ptr<QueueLayout> queueLayout;
+    std::unique_ptr<DequeLayout> dequeLayout;
 
     Edit inputField;
     Label resultLabel{""};
@@ -77,36 +54,76 @@ class LikaWindow
     {
         chooseLayout.setVisible(false);
         workLayout.setVisible(true);
-        stackButtons.setVisible(true);
-        queueButtons.setVisible(false);
-        dequeButtons.setVisible(false);
         titleLabel.setText("STACK");
         activeStructure = 1;
         clearElements();
+
+        stackLayout = std::make_unique<StackLayout>();
+
+        stackLayout->sPush.setOnClick(std::bind(&LikaWindow::onStackPush, this));
+        stackLayout->sPop.setOnClick(std::bind(&LikaWindow::onStackPop, this));
+        stackLayout->sTop.setOnClick(std::bind(&LikaWindow::onStackTop, this));
+        stackLayout->sSize.setOnClick(std::bind(&LikaWindow::onStackSize, this));
+        stackLayout->sEmpty.setOnClick(std::bind(&LikaWindow::onStackEmpty, this));
+        stackLayout->sBack.setOnClick(std::bind(&LikaWindow::onBackToMenu, this));
+        while (workLayout.getWidgetCount() > 0){
+         workLayout.removeLast();
+        }
+
+        workLayout.append(*stackLayout);
+         workLayout.append(elementsLayout); 
     }
 
     void onQueueClick()
     {
         chooseLayout.setVisible(false);
         workLayout.setVisible(true);
-        stackButtons.setVisible(false);
-        queueButtons.setVisible(true);
-        dequeButtons.setVisible(false);
         titleLabel.setText("QUEUE");
         activeStructure = 2;
         clearElements();
+
+        queueLayout = std::make_unique<QueueLayout>();
+
+        queueLayout->qEnqueue.setOnClick(std::bind(&LikaWindow::onQueueEnqueue, this));
+        queueLayout->qDequeue.setOnClick(std::bind(&LikaWindow::onQueueDequeue, this));
+        queueLayout->qFront.setOnClick(std::bind(&LikaWindow::onQueueFront, this));
+        queueLayout->qBack.setOnClick(std::bind(&LikaWindow::onQueueBack, this));
+        queueLayout->qSize.setOnClick(std::bind(&LikaWindow::onQueueSize, this));
+        queueLayout->qEmpty.setOnClick(std::bind(&LikaWindow::onQueueEmpty, this));
+        queueLayout->qReturn.setOnClick(std::bind(&LikaWindow::onBackToMenu, this));
+        while (workLayout.getWidgetCount() > 0){
+         workLayout.removeLast();
+        }
+
+        workLayout.append(*queueLayout);
+         workLayout.append(elementsLayout); 
     }
 
     void onDequeClick()
     {
         chooseLayout.setVisible(false);
         workLayout.setVisible(true);
-        stackButtons.setVisible(false);
-        queueButtons.setVisible(false);
-        dequeButtons.setVisible(true);
         titleLabel.setText("DEQUE");
         activeStructure = 3;
         clearElements();
+
+        dequeLayout = std::make_unique<DequeLayout>();
+
+        dequeLayout->dPushFront.setOnClick(std::bind(&LikaWindow::onDequePushFront, this));
+        dequeLayout->dPushBack.setOnClick(std::bind(&LikaWindow::onDequePushBack, this));
+        dequeLayout->dPopFront.setOnClick(std::bind(&LikaWindow::onDequePopFront, this));
+        dequeLayout->dPopBack.setOnClick(std::bind(&LikaWindow::onDequePopBack, this));
+        dequeLayout->dFront.setOnClick(std::bind(&LikaWindow::onDequeFront, this));
+        dequeLayout->dBack.setOnClick(std::bind(&LikaWindow::onDequeBack, this));
+        dequeLayout->dSize.setOnClick(std::bind(&LikaWindow::onDequeSize, this));
+        dequeLayout->dEmpty.setOnClick(std::bind(&LikaWindow::onDequeEmpty, this));
+        dequeLayout->dReturn.setOnClick(std::bind(&LikaWindow::onBackToMenu, this));
+        while (workLayout.getWidgetCount() > 0){
+         workLayout.removeLast();
+        }
+
+        workLayout.append(*dequeLayout);
+         workLayout.append(elementsLayout); 
     }
 
     void onStackPush()
@@ -416,67 +433,10 @@ class LikaWindow
         chooseLayout.append(btnQueue);
         chooseLayout.append(btnDeque);
 
-        stackButtons.append(sPush);
-        stackButtons.append(sPop);
-        stackButtons.append(sTop);
-        stackButtons.append(sSize);
-        stackButtons.append(sEmpty);
-        stackButtons.append(sBack);
-
-        queueButtons.append(qEnqueue);
-        queueButtons.append(qDequeue);
-        queueButtons.append(qFront);
-        queueButtons.append(qBack);
-        queueButtons.append(qSize);
-        queueButtons.append(qEmpty);
-        queueButtons.append(qReturn);
-
-        dequeButtons.append(dPushFront);
-        dequeButtons.append(dPushBack);
-        dequeButtons.append(dPopFront);
-        dequeButtons.append(dPopBack);
-        dequeButtons.append(dFront);
-        dequeButtons.append(dBack);
-        dequeButtons.append(dSize);
-        dequeButtons.append(dEmpty);
-        dequeButtons.append(dReturn);
-
-        workLayout.append(stackButtons);
-        workLayout.append(queueButtons);
-        workLayout.append(dequeButtons);
-        workLayout.append(elementsLayout);
-
-        queueButtons.setVisible(false);
-        dequeButtons.setVisible(false);
 
         btnStack.setOnClick(std::bind(&LikaWindow::onStackClick, this));
         btnQueue.setOnClick(std::bind(&LikaWindow::onQueueClick, this));
         btnDeque.setOnClick(std::bind(&LikaWindow::onDequeClick, this));
-
-        sPush.setOnClick(std::bind(&LikaWindow::onStackPush, this));
-        sPop.setOnClick(std::bind(&LikaWindow::onStackPop, this));
-        sTop.setOnClick(std::bind(&LikaWindow::onStackTop, this));
-        sSize.setOnClick(std::bind(&LikaWindow::onStackSize, this));
-        sEmpty.setOnClick(std::bind(&LikaWindow::onStackEmpty, this));
-        sBack.setOnClick(std::bind(&LikaWindow::onBackToMenu, this));
-
-        qEnqueue.setOnClick(std::bind(&LikaWindow::onQueueEnqueue, this));
-        qDequeue.setOnClick(std::bind(&LikaWindow::onQueueDequeue, this));
-        qFront.setOnClick(std::bind(&LikaWindow::onQueueFront, this));
-        qBack.setOnClick(std::bind(&LikaWindow::onQueueBack, this));
-        qSize.setOnClick(std::bind(&LikaWindow::onQueueSize, this));
-        qEmpty.setOnClick(std::bind(&LikaWindow::onQueueEmpty, this));
-        qReturn.setOnClick(std::bind(&LikaWindow::onBackToMenu, this));
-
-        dPushFront.setOnClick(std::bind(&LikaWindow::onDequePushFront, this));
-        dPushBack.setOnClick(std::bind(&LikaWindow::onDequePushBack, this));
-        dPopFront.setOnClick(std::bind(&LikaWindow::onDequePopFront, this));
-        dPopBack.setOnClick(std::bind(&LikaWindow::onDequePopBack, this));
-        dFront.setOnClick(std::bind(&LikaWindow::onDequeFront, this));
-        dBack.setOnClick(std::bind(&LikaWindow::onDequeBack, this));
-        dSize.setOnClick(std::bind(&LikaWindow::onDequeSize, this));
-        dEmpty.setOnClick(std::bind(&LikaWindow::onDequeEmpty, this));
-        dReturn.setOnClick(std::bind(&LikaWindow::onBackToMenu, this));
 
         workLayout.setVisible(false);
     }
@@ -508,6 +468,7 @@ class LikaWindow
                 {
                     handled = inputField.handleEvent(*event);
                 }
+
                 if (!handled)
                 {
                     if (chooseLayout.handleEvent(*event)) handled = true;

@@ -22,6 +22,7 @@ class Button : public Widget
         text.setCharacterSize(FontSizes::BUTTON);
         text.setFillColor(Colors::BUTTON_TEXT);
         shape.setSize({ButtonSizes::CHOOSE_W, ButtonSizes::CHOOSE_H});
+        Widget::setSize(ButtonSizes::CHOOSE_W, ButtonSizes::CHOOSE_H);
     }
 
     Button(const std::string& label, float width, float height,

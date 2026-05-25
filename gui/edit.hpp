@@ -57,48 +57,47 @@ class Edit : public Widget
     }
 
     bool handleEvent(const sf::Event& event) override
+{
+    if (!visible || disabled) return false;
+
+    bool handled = false;
+
+    if (auto* mouse = event.getIf<sf::Event::MouseButtonPressed>())
     {
-        if (!visible || disabled) return false;
+        sf::Vector2f mousePos = {static_cast<float>(mouse->position.x),
+                                 static_cast<float>(mouse->position.y)};
 
-        bool handled = false;
-
-        if (auto* mouse = event.getIf<sf::Event::MouseButtonPressed>())
+        if (text.getGlobalBounds().contains(mousePos))
         {
-            sf::Vector2f mousePos = {static_cast<float>(mouse->position.x),
-                                     static_cast<float>(mouse->position.y)};
+            focused = true;
+            handled = true;
+        }
+        else
+        {
+            focused = false;
+        }
+    }  
+    if (focused && event.is<sf::Event::TextEntered>())
+    {
+        auto* t = event.getIf<sf::Event::TextEntered>();
 
-            if (text.getGlobalBounds().contains(mousePos))
-            {
-                focused = true;
-                handled = true;
-            }
-            else
-            {
-                focused = false;
-            }
-
-            if (focused && event.is<sf::Event::TextEntered>())
-            {
-                auto* t = event.getIf<sf::Event::TextEntered>();
-
-                if (t->unicode == '\b' && !input.empty())
-                {
-                    input.pop_back();
-                    handled = true;
-                }
-                else if (t->unicode == '\r')
-                {
-                    focused = false;
-                    handled = true;
-                }
-                else if ((t->unicode >= '0' && t->unicode <= '9') || t->unicode == '-')
-                {
-                    input += static_cast<char>(t->unicode);
-                    handled = true;
-                }
-            }
-
-            return handled;
+        if (t->unicode == '\b' && !input.empty())
+        {
+            input.pop_back();
+            handled = true;
+        }
+        else if (t->unicode == '\r')
+        {
+            focused = false;
+            handled = true;
+        }
+        else if ((t->unicode >= '0' && t->unicode <= '9') || t->unicode == '-')
+        {
+            input += static_cast<char>(t->unicode);
+            handled = true;
         }
     }
+
+    return handled;
+}
 };
