@@ -66,12 +66,13 @@ class LikaWindow
         stackLayout->sSize.setOnClick(std::bind(&LikaWindow::onStackSize, this));
         stackLayout->sEmpty.setOnClick(std::bind(&LikaWindow::onStackEmpty, this));
         stackLayout->sBack.setOnClick(std::bind(&LikaWindow::onBackToMenu, this));
-        while (workLayout.getWidgetCount() > 0){
-         workLayout.removeLast();
+        while (workLayout.getWidgetCount() > 0)
+        {
+            workLayout.removeLast();
         }
 
         workLayout.append(*stackLayout);
-         workLayout.append(elementsLayout); 
+        workLayout.append(elementsLayout);
     }
 
     void onQueueClick()
@@ -91,12 +92,13 @@ class LikaWindow
         queueLayout->qSize.setOnClick(std::bind(&LikaWindow::onQueueSize, this));
         queueLayout->qEmpty.setOnClick(std::bind(&LikaWindow::onQueueEmpty, this));
         queueLayout->qReturn.setOnClick(std::bind(&LikaWindow::onBackToMenu, this));
-        while (workLayout.getWidgetCount() > 0){
-         workLayout.removeLast();
+        while (workLayout.getWidgetCount() > 0)
+        {
+            workLayout.removeLast();
         }
 
         workLayout.append(*queueLayout);
-         workLayout.append(elementsLayout); 
+        workLayout.append(elementsLayout);
     }
 
     void onDequeClick()
@@ -118,12 +120,13 @@ class LikaWindow
         dequeLayout->dSize.setOnClick(std::bind(&LikaWindow::onDequeSize, this));
         dequeLayout->dEmpty.setOnClick(std::bind(&LikaWindow::onDequeEmpty, this));
         dequeLayout->dReturn.setOnClick(std::bind(&LikaWindow::onBackToMenu, this));
-        while (workLayout.getWidgetCount() > 0){
-         workLayout.removeLast();
+        while (workLayout.getWidgetCount() > 0)
+        {
+            workLayout.removeLast();
         }
 
         workLayout.append(*dequeLayout);
-         workLayout.append(elementsLayout); 
+        workLayout.append(elementsLayout);
     }
 
     void onStackPush()
@@ -432,7 +435,6 @@ class LikaWindow
         chooseLayout.append(btnStack);
         chooseLayout.append(btnQueue);
         chooseLayout.append(btnDeque);
-
 
         btnStack.setOnClick(std::bind(&LikaWindow::onStackClick, this));
         btnQueue.setOnClick(std::bind(&LikaWindow::onQueueClick, this));
