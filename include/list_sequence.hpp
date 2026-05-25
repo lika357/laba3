@@ -150,11 +150,11 @@ class ListSequence : public Sequence<T>
 
     T& Back()
     {
-        return items.GetLast();
+        return items.GetLastRef();
     }
 
     T& Front()
     {
-        return items.GetFirst();
+        return items.GetFirstRef();
     }
 };

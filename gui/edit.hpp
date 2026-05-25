@@ -2,8 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+#include "config.hpp"
 #include "widget.hpp"
-#include "config.hpp"  
 
 class Edit : public Widget
 {
@@ -15,8 +15,8 @@ class Edit : public Widget
    public:
     Edit() : text(Widget::getDefaultFont())
     {
-        text.setCharacterSize(FontSizes::INPUT);  
-        text.setFillColor(Colors::INPUT_TEXT);    
+        text.setCharacterSize(FontSizes::INPUT);
+        text.setFillColor(Colors::INPUT_TEXT);
     }
 
     void setPosition(float x, float y)
@@ -56,9 +56,11 @@ class Edit : public Widget
         window.draw(text);
     }
 
-    void handleEvent(const sf::Event& event) override
+    bool handleEvent(const sf::Event& event) override
     {
-        if (!visible || disabled) return;
+        if (!visible || disabled) return false;
+
+        bool handled = false;
 
         if (auto* mouse = event.getIf<sf::Event::MouseButtonPressed>())
         {
@@ -66,27 +68,37 @@ class Edit : public Widget
                                      static_cast<float>(mouse->position.y)};
 
             if (text.getGlobalBounds().contains(mousePos))
+            {
                 focused = true;
+                handled = true;
+            }
             else
-                focused = false;
-        }
-
-        if (focused && event.is<sf::Event::TextEntered>())
-        {
-            auto* t = event.getIf<sf::Event::TextEntered>();
-
-            if (t->unicode == '\b' && !input.empty())
-            {
-                input.pop_back();
-            }
-            else if (t->unicode == '\r')
             {
                 focused = false;
             }
-            else if ((t->unicode >= '0' && t->unicode <= '9') || t->unicode == '-')
+
+            if (focused && event.is<sf::Event::TextEntered>())
             {
-                input += static_cast<char>(t->unicode);
+                auto* t = event.getIf<sf::Event::TextEntered>();
+
+                if (t->unicode == '\b' && !input.empty())
+                {
+                    input.pop_back();
+                    handled = true;
+                }
+                else if (t->unicode == '\r')
+                {
+                    focused = false;
+                    handled = true;
+                }
+                else if ((t->unicode >= '0' && t->unicode <= '9') || t->unicode == '-')
+                {
+                    input += static_cast<char>(t->unicode);
+                    handled = true;
+                }
             }
+
+            return handled;
         }
     }
 };

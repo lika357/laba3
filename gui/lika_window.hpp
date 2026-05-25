@@ -1,13 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-#include "config.hpp" 
-
 #include "../include/deque.hpp"
 #include "../include/list_sequence.hpp"
 #include "../include/queue.hpp"
 #include "../include/stack.hpp"
 #include "button.hpp"
+#include "config.hpp"
 #include "edit.hpp"
 #include "horizontal_layout.hpp"
 #include "label.hpp"
@@ -353,8 +352,8 @@ class LikaWindow
     {
         stack.Push(value);
         resultLabel.setText("Pushed: " + std::to_string(value));
-        Button* elem = new Button(std::to_string(value), ButtonSizes::ELEMENT_W,
-                                  ButtonSizes::ELEMENT_H);
+        Button* elem =
+            new Button(std::to_string(value), ButtonSizes::ELEMENT_W, ButtonSizes::ELEMENT_H);
         elem->setColor(Colors::ELEMENT);
         elementsLayout.append(*elem);
     }
@@ -363,8 +362,8 @@ class LikaWindow
     {
         queue.Enqueue(value);
         resultLabel.setText("Enqueued: " + std::to_string(value));
-        Button* elem = new Button(std::to_string(value), ButtonSizes::ELEMENT_W,
-                                  ButtonSizes::ELEMENT_H);
+        Button* elem =
+            new Button(std::to_string(value), ButtonSizes::ELEMENT_W, ButtonSizes::ELEMENT_H);
         elem->setColor(Colors::ELEMENT);
         elementsLayout.prepend(*elem);
     }
@@ -375,8 +374,8 @@ class LikaWindow
         {
             deque.PushFront(value);
             resultLabel.setText("PushFront: " + std::to_string(value));
-            Button* elem = new Button(std::to_string(value), ButtonSizes::ELEMENT_W,
-                                      ButtonSizes::ELEMENT_H);
+            Button* elem =
+                new Button(std::to_string(value), ButtonSizes::ELEMENT_W, ButtonSizes::ELEMENT_H);
             elem->setColor(Colors::ELEMENT);
             elementsLayout.prepend(*elem);
         }
@@ -384,8 +383,8 @@ class LikaWindow
         {
             deque.PushBack(value);
             resultLabel.setText("PushBack: " + std::to_string(value));
-            Button* elem = new Button(std::to_string(value), ButtonSizes::ELEMENT_W,
-                                      ButtonSizes::ELEMENT_H);
+            Button* elem =
+                new Button(std::to_string(value), ButtonSizes::ELEMENT_W, ButtonSizes::ELEMENT_H);
             elem->setColor(Colors::ELEMENT);
             elementsLayout.append(*elem);
         }
@@ -503,14 +502,21 @@ class LikaWindow
                 {
                     window.close();
                 }
+                bool handled = false;
 
                 if (inputField.isVisible())
                 {
-                    inputField.handleEvent(*event);
+                    handled = inputField.handleEvent(*event);
+                }
+                if (!handled)
+                {
+                    if (chooseLayout.handleEvent(*event)) handled = true;
                 }
 
-                chooseLayout.handleEvent(*event);
-                workLayout.handleEvent(*event);
+                if (!handled)
+                {
+                    if (workLayout.handleEvent(*event)) handled = true;
+                }
 
                 if (inputMode && !inputField.isFocused() && !inputField.getInput().empty())
                 {

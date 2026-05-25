@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-#include "config.hpp" 
+#include "config.hpp"
 
 class Widget
 {
@@ -20,7 +20,7 @@ class Widget
     virtual ~Widget() = default;
 
     virtual void draw(sf::RenderWindow& window) = 0;
-    virtual void handleEvent(const sf::Event& event) = 0;
+    virtual bool handleEvent(const sf::Event& event) = 0;
 
     virtual void setPosition(float x, float y)
     {

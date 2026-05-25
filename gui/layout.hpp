@@ -58,12 +58,15 @@ class Layout : public Widget
         }
     }
 
-    void handleEvent(const sf::Event& event) override
+    bool handleEvent(const sf::Event& event) override
     {
-        if (!visible || disabled) return;
+        if (!visible || disabled) return false;
+
         for (auto& widget : widgets)
         {
-            widget->handleEvent(event);
+            if (widget->handleEvent(event)) return true;
         }
+
+        return false;
     }
 };
