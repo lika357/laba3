@@ -263,4 +263,14 @@ class LinkedList
         }
         return current->value;
     }
+    void PopFront()
+    {
+        if (this->GetLength() == 0)
+        {
+            throw InvalidArgument{};
+        }
+        Node* value = head;
+        head = head->next;
+        delete (value);
+    }
 };

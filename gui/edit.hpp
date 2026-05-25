@@ -3,6 +3,7 @@
 #include <string>
 
 #include "widget.hpp"
+#include "config.hpp"  
 
 class Edit : public Widget
 {
@@ -14,8 +15,8 @@ class Edit : public Widget
    public:
     Edit() : text(Widget::getDefaultFont())
     {
-        text.setCharacterSize(28);
-        text.setFillColor(sf::Color::Black);
+        text.setCharacterSize(FontSizes::INPUT);  
+        text.setFillColor(Colors::INPUT_TEXT);    
     }
 
     void setPosition(float x, float y)

@@ -3,6 +3,7 @@
 #include <functional>
 
 #include "widget.hpp"
+#include "config.hpp" 
 
 class Button : public Widget
 {
@@ -12,33 +13,33 @@ class Button : public Widget
     std::function<void()> onClick;
 
    public:
- Button(const std::string& label) : text(Widget::getDefaultFont())
+    Button(const std::string& label) : text(Widget::getDefaultFont())
     {
-        shape.setFillColor(sf::Color::White);
-        shape.setOutlineThickness(2);
-        shape.setOutlineColor(sf::Color(101, 67, 33));
+        shape.setFillColor(Colors::BUTTON_FILL);               
+        shape.setOutlineThickness(Borders::BUTTON_THICKNESS);  
+        shape.setOutlineColor(Colors::BUTTON_OUTLINE);        
         text.setString(label);
-        text.setCharacterSize(22);
-        text.setFillColor(sf::Color::Black);
-        shape.setSize({200, 50});
+        text.setCharacterSize(FontSizes::BUTTON);             
+        text.setFillColor(Colors::BUTTON_TEXT);              
+        shape.setSize({ButtonSizes::CHOOSE_W, ButtonSizes::CHOOSE_H});  
     }
-    Button(const std::string& label, 
-           float width, 
-           float height,
+
+    Button(const std::string& label, float width, float height,
            std::function<void()> callback = nullptr)
         : text(Widget::getDefaultFont())
     {
-        shape.setFillColor(sf::Color::White);
-        shape.setOutlineThickness(2);
-        shape.setOutlineColor(sf::Color(101, 67, 33));
+        shape.setFillColor(Colors::BUTTON_FILL);              
+        shape.setOutlineThickness(Borders::BUTTON_THICKNESS);
+        shape.setOutlineColor(Colors::BUTTON_OUTLINE);          
         text.setString(label);
-        text.setCharacterSize(22);
-        text.setFillColor(sf::Color::Black);
-        shape.setSize({width, height}); 
+        text.setCharacterSize(FontSizes::BUTTON);           
+        text.setFillColor(Colors::BUTTON_TEXT);                 
+        shape.setSize({width, height});
         Widget::setSize(width, height);
-        if (callback){
-             onClick = callback;
-        }  
+        if (callback)
+        {
+            onClick = callback;
+        }
     }
 
     void setPosition(float x, float y) override
@@ -60,6 +61,7 @@ class Button : public Widget
         window.draw(shape);
         window.draw(text);
     }
+
     void setColor(sf::Color fillColor)
     {
         shape.setFillColor(fillColor);

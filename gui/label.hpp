@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "widget.hpp"
+#include "config.hpp" 
 
 class Label : public Widget
 {
@@ -12,8 +13,8 @@ class Label : public Widget
     Label(const std::string& str) : text(Widget::getDefaultFont())
     {
         text.setString(str);
-        text.setCharacterSize(24);
-        text.setFillColor(sf::Color::Black);
+        text.setCharacterSize(FontSizes::RESULT); 
+        text.setFillColor(Colors::RESULT);          
     }
 
     void setPosition(float x, float y)

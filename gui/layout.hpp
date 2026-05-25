@@ -41,14 +41,7 @@ class Layout : public Widget
 
     void removeFirst()
     {
-        if (widgets.GetLength() == 0) return;
-
-        ListSequence<Widget*> temp;
-        for (size_t i = 1; i < widgets.GetLength(); i++)
-        {
-            temp.Append(widgets[i]);
-        }
-        widgets = temp;
+        widgets.PopFront();
     }
 
     size_t getWidgetCount() const
@@ -68,9 +61,9 @@ class Layout : public Widget
     void handleEvent(const sf::Event& event) override
     {
         if (!visible || disabled) return;
-        for (size_t i = 0; i < widgets.GetLength(); i++)
+        for (auto& widget : widgets)
         {
-            widgets[i]->handleEvent(event);
+            widget->handleEvent(event);
         }
     }
 };

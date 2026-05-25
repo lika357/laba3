@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+#include "config.hpp" 
+
 #include "../include/deque.hpp"
 #include "../include/list_sequence.hpp"
 #include "../include/queue.hpp"
@@ -18,45 +20,51 @@ class LikaWindow
     sf::Font font;
     Label titleLabel{"CHOOSE STRUCTURE"};
 
-    VerticalLayout chooseLayout{450.0f, 250.0f, 25.0f};
-    Button btnStack{"STACK", 300.0f, 70.0f};
-    Button btnQueue{"QUEUE", 300.0f, 70.0f};
-    Button btnDeque{"DEQUE", 300.0f, 70.0f};
+    VerticalLayout chooseLayout{LayoutPositions::CHOOSE_X, LayoutPositions::CHOOSE_Y,
+                                LayoutPositions::CHOOSE_GAP};
+    Button btnStack{"STACK", ButtonSizes::CHOOSE_W, ButtonSizes::CHOOSE_H};
+    Button btnQueue{"QUEUE", ButtonSizes::CHOOSE_W, ButtonSizes::CHOOSE_H};
+    Button btnDeque{"DEQUE", ButtonSizes::CHOOSE_W, ButtonSizes::CHOOSE_H};
 
-    VerticalLayout workLayout{50.0f, 80.0f, 15.0f};
+    VerticalLayout workLayout{LayoutPositions::WORK_X, LayoutPositions::WORK_Y,
+                              LayoutPositions::WORK_GAP};
 
-    HorizontalLayout stackButtons{50.0f, 80.0f, 10.0f};
-    Button sPush{"Push", 175.0f, 50.0f};
-    Button sPop{"Pop", 175.0f, 50.0f};
-    Button sTop{"Top", 175.0f, 50.0f};
-    Button sSize{"Size", 175.0f, 50.0f};
-    Button sEmpty{"Empty", 175.0f, 50.0f};
-    Button sBack{"Back", 175.0f, 50.0f};
+    HorizontalLayout stackButtons{LayoutPositions::WORK_X, LayoutPositions::WORK_Y,
+                                  LayoutPositions::FUNC_GAP};
+    Button sPush{"Push", ButtonSizes::STACK_W, ButtonSizes::STACK_H};
+    Button sPop{"Pop", ButtonSizes::STACK_W, ButtonSizes::STACK_H};
+    Button sTop{"Top", ButtonSizes::STACK_W, ButtonSizes::STACK_H};
+    Button sSize{"Size", ButtonSizes::STACK_W, ButtonSizes::STACK_H};
+    Button sEmpty{"Empty", ButtonSizes::STACK_W, ButtonSizes::STACK_H};
+    Button sBack{"Back", ButtonSizes::STACK_W, ButtonSizes::STACK_H};
 
-    HorizontalLayout queueButtons{50.0f, 80.0f, 10.0f};
-    Button qEnqueue{"Enqueue", 150.0f, 50.0f};
-    Button qDequeue{"Dequeue", 150.0f, 50.0f};
-    Button qFront{"Front", 150.0f, 50.0f};
-    Button qBack{"Back", 150.0f, 50.0f};
-    Button qSize{"Size", 150.0f, 50.0f};
-    Button qEmpty{"Empty", 150.0f, 50.0f};
-    Button qReturn{"Back", 150.0f, 50.0f};
+    HorizontalLayout queueButtons{LayoutPositions::WORK_X, LayoutPositions::WORK_Y,
+                                  LayoutPositions::FUNC_GAP};
+    Button qEnqueue{"Enqueue", ButtonSizes::QUEUE_W, ButtonSizes::QUEUE_H};
+    Button qDequeue{"Dequeue", ButtonSizes::QUEUE_W, ButtonSizes::QUEUE_H};
+    Button qFront{"Front", ButtonSizes::QUEUE_W, ButtonSizes::QUEUE_H};
+    Button qBack{"Back", ButtonSizes::QUEUE_W, ButtonSizes::QUEUE_H};
+    Button qSize{"Size", ButtonSizes::QUEUE_W, ButtonSizes::QUEUE_H};
+    Button qEmpty{"Empty", ButtonSizes::QUEUE_W, ButtonSizes::QUEUE_H};
+    Button qReturn{"Back", ButtonSizes::QUEUE_W, ButtonSizes::QUEUE_H};
 
-    HorizontalLayout dequeButtons{50.0f, 80.0f, 10.0f};
-    Button dPushFront{"PushFront", 115.0f, 50.0f};
-    Button dPushBack{"PushBack", 115.0f, 50.0f};
-    Button dPopFront{"PopFront", 115.0f, 50.0f};
-    Button dPopBack{"PopBack", 115.0f, 50.0f};
-    Button dFront{"Front", 115.0f, 50.0f};
-    Button dBack{"Back", 115.0f, 50.0f};
-    Button dSize{"Size", 115.0f, 50.0f};
-    Button dEmpty{"Empty", 115.0f, 50.0f};
-    Button dReturn{"Return", 115.0f, 50.0f};
+    HorizontalLayout dequeButtons{LayoutPositions::WORK_X, LayoutPositions::WORK_Y,
+                                  LayoutPositions::FUNC_GAP};
+    Button dPushFront{"PushFront", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
+    Button dPushBack{"PushBack", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
+    Button dPopFront{"PopFront", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
+    Button dPopBack{"PopBack", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
+    Button dFront{"Front", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
+    Button dBack{"Back", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
+    Button dSize{"Size", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
+    Button dEmpty{"Empty", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
+    Button dReturn{"Back", ButtonSizes::DEQUE_W, ButtonSizes::DEQUE_H};
 
     Edit inputField;
     Label resultLabel{""};
 
-    HorizontalLayout elementsLayout{50.0f, 280.0f, 15.0f};
+    HorizontalLayout elementsLayout{LayoutPositions::WORK_X, LayoutPositions::ELEM_Y,
+                                    LayoutPositions::ELEM_GAP};
 
     ListStack<int> stack;
     ListQueue<int> queue;
@@ -345,8 +353,9 @@ class LikaWindow
     {
         stack.Push(value);
         resultLabel.setText("Pushed: " + std::to_string(value));
-        Button* elem = new Button(std::to_string(value), 80.0f, 80.0f);
-        elem->setColor(sf::Color(173, 216, 230));
+        Button* elem = new Button(std::to_string(value), ButtonSizes::ELEMENT_W,
+                                  ButtonSizes::ELEMENT_H);
+        elem->setColor(Colors::ELEMENT);
         elementsLayout.append(*elem);
     }
 
@@ -354,8 +363,9 @@ class LikaWindow
     {
         queue.Enqueue(value);
         resultLabel.setText("Enqueued: " + std::to_string(value));
-        Button* elem = new Button(std::to_string(value), 80.0f, 80.0f);
-        elem->setColor(sf::Color(173, 216, 230));
+        Button* elem = new Button(std::to_string(value), ButtonSizes::ELEMENT_W,
+                                  ButtonSizes::ELEMENT_H);
+        elem->setColor(Colors::ELEMENT);
         elementsLayout.prepend(*elem);
     }
 
@@ -365,16 +375,18 @@ class LikaWindow
         {
             deque.PushFront(value);
             resultLabel.setText("PushFront: " + std::to_string(value));
-            Button* elem = new Button(std::to_string(value), 80.0f, 80.0f);
-            elem->setColor(sf::Color(173, 216, 230));
+            Button* elem = new Button(std::to_string(value), ButtonSizes::ELEMENT_W,
+                                      ButtonSizes::ELEMENT_H);
+            elem->setColor(Colors::ELEMENT);
             elementsLayout.prepend(*elem);
         }
         else
         {
             deque.PushBack(value);
             resultLabel.setText("PushBack: " + std::to_string(value));
-            Button* elem = new Button(std::to_string(value), 80.0f, 80.0f);
-            elem->setColor(sf::Color(173, 216, 230));
+            Button* elem = new Button(std::to_string(value), ButtonSizes::ELEMENT_W,
+                                      ButtonSizes::ELEMENT_H);
+            elem->setColor(Colors::ELEMENT);
             elementsLayout.append(*elem);
         }
         dequeInputMode = 0;
@@ -384,22 +396,20 @@ class LikaWindow
     LikaWindow(size_t width, size_t height, const std::string& title)
     {
         window.create(
-            sf::VideoMode({
-                static_cast<unsigned int>(width),
-                 static_cast<unsigned int>(height)
-                }),
+            sf::VideoMode({static_cast<unsigned int>(width), static_cast<unsigned int>(height)}),
             title);
 
-        if (!font.openFromFile("arial.ttf")){
-             throw std::runtime_error("Failed not open");
+        if (!font.openFromFile("arial.ttf"))
+        {
+            throw std::runtime_error("Failed not open");
         }
 
         Widget::getDefaultFont() = font;
 
-        titleLabel.setPosition(450.0f, 20.0f);
+        titleLabel.setPosition(ElementPositions::TITLE_X, ElementPositions::TITLE_Y);
 
-        inputField.setPosition(50.0f, 150.0f);
-        resultLabel.setPosition(50.0f, 150.0f);
+        inputField.setPosition(ElementPositions::INPUT_X, ElementPositions::INPUT_Y);
+        resultLabel.setPosition(ElementPositions::RESULT_X, ElementPositions::RESULT_Y);
         inputField.setVisible(false);
         resultLabel.setVisible(false);
 
@@ -489,8 +499,9 @@ class LikaWindow
         {
             while (auto event = window.pollEvent())
             {
-                if (event->is<sf::Event::Closed>()){
-                     window.close();
+                if (event->is<sf::Event::Closed>())
+                {
+                    window.close();
                 }
 
                 if (inputField.isVisible())
@@ -518,8 +529,7 @@ class LikaWindow
                     resultLabel.setVisible(true);
                 }
             }
-
-            window.clear(sf::Color(255, 228, 225));
+            window.clear(Colors::BACKGROUND);
 
             titleLabel.draw(window);
             chooseLayout.draw(window);
